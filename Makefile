@@ -14,9 +14,9 @@ NAME = scop
 CC = gcc
 
 SRC_PATH = ./src/
-OBJ_PATH = ./obj/
-LIB_PATH = ./lib/
-INC_PATH = ./include/ $(LIB_PATH)libft/include/ $(LIB_PATH)glfw/include/ \
+OBJ_PATH = ./
+LIB_PATH = ./
+INC_PATH = ./include/ $(LIB_PATH)libft/ $(LIB_PATH)glfw/include/ \
 			$(LIB_PATH)libmat4/include/
 
 GCC_FLGS = -Werror -Wextra -Wall -pedantic -g3

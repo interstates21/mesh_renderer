@@ -18,6 +18,7 @@
 */
 # include "libft.h"
 # include "libmat4.h"
+ #include <fcntl.h>
 
 /*
 ** External librairies
