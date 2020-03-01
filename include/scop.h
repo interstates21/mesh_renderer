@@ -252,5 +252,6 @@ void			camera_center(t_env *env);
 void			camera_look_at_target(t_env *env);
 
 void    		print_err(char *str);
+void			init_gl(t_env *env);
 
 #endif

@@ -19,36 +19,6 @@ void	glfw_loop(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void	init_gl_version() {
-	const int	maj = 4;
-	const int	min = 0;
-	
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); 
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, maj);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, min);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-}
-void	init_gl(t_env *env)
-{
-	int width;
-	int height;
-
-if (!glfwInit())
-		ft_putstr("ERROR: glfw initialization failed.");
-
-	init_gl_version();
-	env->window = glfwCreateWindow(WIDTH, HEIGHT, WINDOW_NAME, NULL, NULL);
-	if (env->window == NULL)
-	{
-    	glfwTerminate();
-    	print_err("Failed to init Window");
-	}
-	glfwMakeContextCurrent(env->window);
-	glfwGetFramebufferSize(env->window, &width, &height);
-	ft_putnbr(height);
-	glViewport(0, 0, width, height);
-	glfwSetInputMode(env->window, GLFW_STICKY_KEYS, 1);
-}
 
 void	init_matrices(t_env *env)
 {
