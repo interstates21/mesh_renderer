@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   scop.h                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wwatkins <wwatkins@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/29 17:23:49 by wwatkins          #+#    #+#             */
-/*   Updated: 2016/12/12 11:34:21 by wwatkins         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #ifndef SCOP_H
 # define SCOP_H
 
@@ -33,15 +21,16 @@
 ** Modification line 146 in GLFW/glfw3.h: OpenGL/gl.h -> OpenGL/gl3.h
 */
 
+# define WINDOW_NAME "Eternal beauty of graphics shit"
 # define OPENGL_VERSION "4.0"
 # define BUFFER_SIZE 128
 # define COOLDOWN 20
-# define WINDOW_W 1440
-# define WINDOW_H 1280
+# define WIDTH 1600
+# define HEIGHT 800
 # define CAMERA_FOV 90
 # define CAMERA_NEAR 0.001
 # define CAMERA_FAR 100.0
-
+# define ASPECT_RATIO (WIDTH / (float)HEIGHT)
 /*
 ** Camera zoom
 */
@@ -160,13 +149,6 @@ typedef struct	s_shader
 	GLint	texloc;
 }				t_shader;
 
-typedef struct	s_win
-{
-	GLFWwindow	*ptr;
-	int			w;
-	int			h;
-	float		ratio;
-}				t_win;
 
 typedef struct	s_mod
 {
@@ -181,7 +163,7 @@ typedef struct	s_mod
 
 typedef struct	s_env
 {
-	t_win		win;
+	GLFWwindow	*window;
 	t_sim		sim;
 	t_cam		cam;
 	t_key		key[MAX_KEYS];
@@ -198,7 +180,7 @@ void			init_glfw_env(void);
 void			init_glfw_win(t_env *env);
 void			init_matrices(t_env *env);
 void			init_cam(t_env *env);
-void			init(t_env *env, int argc, char **argv);
+void			init(t_env *env);
 
 /*
 ** callback.c
@@ -268,5 +250,7 @@ void			camera_zoom(t_env *env);
 void			camera_move_inertia(t_env *env, float inertia, int mode);
 void			camera_center(t_env *env);
 void			camera_look_at_target(t_env *env);
+
+void    		print_err(char *str);
 
 #endif

@@ -1,20 +1,9 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: wwatkins <wwatkins@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/11/29 17:14:43 by wwatkins          #+#    #+#              #
-#    Updated: 2016/12/12 11:19:23 by wwatkins         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
 
 NAME = scop
 CC = gcc
 
 SRC_PATH = ./src/
-OBJ_PATH = ./
+OBJ_PATH = ./obj/
 LIB_PATH = ./
 INC_PATH = ./include/ $(LIB_PATH)libft/ $(LIB_PATH)glfw/include/ \
 			$(LIB_PATH)libmat4/include/
@@ -23,7 +12,7 @@ GCC_FLGS = -Werror -Wextra -Wall -pedantic -g3
 GCC_LIBS = -lglfw3 -framework AppKit -framework OpenGL -framework IOKit -framework CoreVideo
 
 SRC_NAME = main.c init.c callback.c shader.c buffer.c utils.c \
-		   coordinate_system.c movement.c camera.c parsing.c texture.c
+		   coordinate_system.c movement.c camera.c parsing.c texture.c errors.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 LIB_NAME = libft libmat4 glfw/src

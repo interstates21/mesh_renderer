@@ -19,18 +19,99 @@ void	glfw_loop(void)
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-int		main(int argc, char **argv)
+void	init_gl_version() {
+	const int	maj = 4;
+	const int	min = 0;
+	
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); 
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, maj);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, min);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+}
+void	init_gl(t_env *env)
+{
+	int width;
+	int height;
+
+if (!glfwInit())
+		ft_putstr("ERROR: glfw initialization failed.");
+
+	init_gl_version();
+	env->window = glfwCreateWindow(WIDTH, HEIGHT, WINDOW_NAME, NULL, NULL);
+	if (env->window == NULL)
+	{
+    	glfwTerminate();
+    	print_err("Failed to init Window");
+	}
+	glfwMakeContextCurrent(env->window);
+	glfwGetFramebufferSize(env->window, &width, &height);
+	ft_putnbr(height);
+	glViewport(0, 0, width, height);
+	glfwSetInputMode(env->window, GLFW_STICKY_KEYS, 1);
+}
+
+void	init_matrices(t_env *env)
+{
+	mat4_set(&env->sim.model, IDENTITY);
+	mat4_set(&env->sim.view, IDENTITY);
+	set_projection_matrix(env, env->cam.fov);
+	mat4_set(&env->model.rotation, IDENTITY);
+	mat4_set(&env->model.translation, IDENTITY);
+	vec3_set(&env->model.inertia, 0);
+	vec3_set(&env->model.center_axis, 0);
+}
+
+void	init_cam(t_env *env)
+{
+	t_vec3	up;
+
+	up = vec3(0, 1, 0);
+	env->cam.pos = vec3(0, 0, 3);
+	env->cam.target = vec3(0, 0, 0);
+	env->cam.dir = vec3_normalize(vec3_sub(env->cam.pos, env->cam.target));
+	env->cam.right = vec3_normalize(vec3_cross(up, env->cam.dir));
+	env->cam.up = vec3_cross(env->cam.dir, env->cam.right);
+	env->cam.front = vec3_cross(env->cam.up, env->cam.right);
+	vec3_set(&env->cam.inertia, 0);
+	env->cam.velocity = 0.005;
+}
+
+void	init(t_env *env)
+{
+
+	env->cam.fov = CAMERA_FOV;
+	init_gl(env);
+	init_cam(env);
+	init_matrices(env);
+	env->mod.wireframe = GL_FILL;
+	env->mod.shading = 0;
+	env->mod.focus = 1;
+	env->mod.color = 0;
+	env->mod.greyscale = 0;
+	env->mod.mapping = 0;
+	env->mod.texture = 0;
+	env->model.velocity = 0.33;
+}
+
+
+void	run(char *filename)
 {
 	t_env	env;
 
-	init(&env, argc, argv);
+	int	i;
+
+	i = -1;
+	while (++i < MAX_KEYS)
+		env.key[i].cooldown = 0;
+	env.model.filename = filename;
+	init(&env);
 	load_obj(&env, env.model.filename);
 	load_bmp(&env, "./resources/chaton.bmp");
 	build_shader_program(&env);
 	create_buffers(&env, GL_DYNAMIC_DRAW);
 	glBindVertexArray(0);
 	glEnable(GL_DEPTH_TEST);
-	while (!glfwWindowShouldClose(env.win.ptr))
+	while (!glfwWindowShouldClose(env.window))
 	{
 		glfw_loop();
 		key_handle(&env);
@@ -42,8 +123,18 @@ int		main(int argc, char **argv)
 		glBindVertexArray(env.buffer.vao);
 		glDrawElements(GL_TRIANGLES, env.model.num_indices, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
-		glfwSwapBuffers(env.win.ptr);
+		glfwSwapBuffers(env.window);
 	}
 	clean_glfw(&env);
+}
+
+
+int main(int argc, char **argv)
+{
+	if (argc != 2)
+		return (1);
+	if (!ft_strstr(argv[1], ".obj"))
+		return (1);
+	run(argv[1]);
 	return (0);
 }

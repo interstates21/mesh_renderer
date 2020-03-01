@@ -16,11 +16,11 @@ void	key_handle(t_env *env)
 {
 	int	i;
 
-	if (glfwGetKey(env->win.ptr, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(env->win.ptr, GL_TRUE);
+	if (glfwGetKey(env->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(env->window, GL_TRUE);
 	i = -1;
 	while (++i < MAX_KEYS)
-		env->key[i].code = glfwGetKey(env->win.ptr, i) == GLFW_PRESS ? 1 : 0;
+		env->key[i].code = glfwGetKey(env->window, i) == GLFW_PRESS ? 1 : 0;
 	key_toggle(&env->key[MW], &env->mod.wireframe, GL_FILL, GL_LINE);
 	key_toggle(&env->key[MF], &env->mod.focus, 0, 1);
 	key_toggle(&env->key[MS], &env->mod.shading, 0, 1);
