@@ -11,8 +11,8 @@ INC_PATH = ./include/ $(LIB_PATH)libft/ $(LIB_PATH)glfw/include/ \
 GCC_FLGS = -Werror -Wextra -Wall -pedantic -g3
 GCC_LIBS = -lglfw3 -framework AppKit -framework OpenGL -framework IOKit -framework CoreVideo
 
-SRC_NAME = main.c init.c callback.c shader.c buffer.c utils.c \
-		   coordinate_system.c movement.c camera.c parsing.c texture.c errors.c init_gl.c
+SRC_NAME = main.c callback.c shader.c buffer.c utils.c \
+		   coordinate_system.c movement.c camera.c parsing.c texture.c errors.c init_gl.c matrix.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 LIB_NAME = libft libmat4 glfw/src

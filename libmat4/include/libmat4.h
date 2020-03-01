@@ -30,11 +30,6 @@
 
 # define IDENTITY 0x7FFFFFFF
 
-typedef struct	s_mat4
-{
-	float	m[16];
-}				t_mat4;
-
 typedef struct	s_vec4
 {
 	float	v[4];
@@ -48,18 +43,7 @@ typedef struct	s_vec3
 /*
 ** Matrices
 */
-void			mat4_set(t_mat4 *m, float f);
-t_mat4			mat4_copy(t_mat4 *a, t_mat4 b);
-t_mat4			mat4_add(t_mat4 a, t_mat4 b);
-t_mat4			mat4_sub(t_mat4 a, t_mat4 b);
-t_mat4			mat4_mul(t_mat4 a, t_mat4 b);
-t_mat4			mat4_scale(t_mat4 m, float f);
-t_mat4			mat4_transpose(t_mat4 m);
-t_mat4			mat4_rotate_axis(t_mat4 m, int axis, float angle);
 
-/*
-** Vectors
-*/
 t_vec3			vec3(float x, float y, float z);
 t_vec4			vec4(float x, float y, float z, float w);
 void			vec3_set(t_vec3 *v, float f);

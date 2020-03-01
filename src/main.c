@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wwatkins <wwatkins@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/11/29 17:20:21 by wwatkins          #+#    #+#             */
-/*   Updated: 2016/12/12 11:38:18 by wwatkins         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "scop.h"
 
 void	glfw_loop(void)
@@ -24,7 +12,7 @@ void	init_matrices(t_env *env)
 {
 	mat4_set(&env->sim.model, IDENTITY);
 	mat4_set(&env->sim.view, IDENTITY);
-	set_projection_matrix(env, env->cam.fov);
+	set_projection_matrix(env, FOV);
 	mat4_set(&env->model.rotation, IDENTITY);
 	mat4_set(&env->model.translation, IDENTITY);
 	vec3_set(&env->model.inertia, 0);
@@ -49,7 +37,6 @@ void	init_cam(t_env *env)
 void	init(t_env *env)
 {
 
-	env->cam.fov = CAMERA_FOV;
 	init_gl(env);
 	init_cam(env);
 	init_matrices(env);
@@ -76,7 +63,7 @@ void	run(char *filename)
 	env.model.filename = filename;
 	init(&env);
 	load_obj(&env, env.model.filename);
-	load_bmp(&env, "./resources/chaton.bmp");
+	load_bmp(&env, "./resources/cat.bmp");
 	build_shader_program(&env);
 	create_buffers(&env, GL_DYNAMIC_DRAW);
 	glBindVertexArray(0);

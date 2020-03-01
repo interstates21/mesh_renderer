@@ -28,10 +28,8 @@ static void calc_monitor_viewport(t_env *env) {
 
 void	init_gl(t_env *env)
 {
-
-if (!glfwInit())
-		ft_putstr("ERROR: glfw initialization failed.");
-
+    if (!glfwInit())
+		ft_putendl("Failed to init GLFW");
 	init_gl_version();
 	env->window = glfwCreateWindow(WIDTH, HEIGHT, WINDOW_NAME, NULL, NULL);
 	if (env->window == NULL)

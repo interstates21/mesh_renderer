@@ -15,9 +15,9 @@
 void	camera_zoom(t_env *env)
 {
 	if (env->key[ZP].code)
-		set_projection_matrix(env, env->cam.fov -= 1);
+		set_projection_matrix(env, FOV);
 	if (env->key[ZM].code)
-		set_projection_matrix(env, env->cam.fov += 1);
+		set_projection_matrix(env, FOV);
 }
 
 void	camera_move_inertia(t_env *e, float inertia, int mode)

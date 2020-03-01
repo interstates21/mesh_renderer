@@ -27,7 +27,7 @@
 # define COOLDOWN 20
 # define WIDTH 1600
 # define HEIGHT 800
-# define CAMERA_FOV 90
+# define FOV 90
 # define CAMERA_NEAR 0.001
 # define CAMERA_FAR 100.0
 # define ASPECT_RATIO (WIDTH / (float)HEIGHT)
@@ -75,6 +75,12 @@
 # define FREE 0
 # define LOCKED 1
 
+
+typedef struct	s_mat4
+{
+	float	m[16];
+}				t_mat4;
+
 typedef struct	s_texture
 {
 	unsigned char	*img;
@@ -95,7 +101,6 @@ typedef struct	s_cam
 	t_vec3	right;
 	t_vec3	front;
 	t_vec3	inertia;
-	float	fov;
 	float	velocity;
 }				t_cam;
 
@@ -172,6 +177,33 @@ typedef struct	s_env
 	t_shader	shader;
 	t_model		model;
 }				t_env;
+
+typedef struct	s_v3f
+{
+	float	x;
+	float	y;
+	float	z;
+}				t_v3f;
+
+typedef struct	s_v4f
+{
+	float	x;
+	float	y;
+	float	z;
+	float	w;
+}				t_v4f;
+
+
+
+void			mat4_set(t_mat4 *m, float f);
+t_mat4			mat4_copy(t_mat4 *a, t_mat4 b);
+t_mat4			mat4_add(t_mat4 a, t_mat4 b);
+t_mat4			mat4_sub(t_mat4 a, t_mat4 b);
+t_mat4			mat4_mul(t_mat4 a, t_mat4 b);
+t_mat4			mat4_scale(t_mat4 m, float f);
+t_mat4			mat4_transpose(t_mat4 m);
+t_mat4			mat4_rotate_axis(t_mat4 m, int axis, float angle);
+
 
 /*
 ** init.c
