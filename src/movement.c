@@ -22,11 +22,11 @@ void	translate(t_mat4 *m, t_v3f v)
 void	rotate(t_mat4 *m, t_v3f v)
 {
 	if (v.x != 0.0)
-		*m = mat4_rotate_axis(*m, AXIS_X, v.x);
+		m_rotate_x(m, v.x);
 	if (v.y != 0.0)
-		*m = mat4_rotate_axis(*m, AXIS_Y, v.y);
+		m_rotate_y(m, v.y);
 	if (v.z != 0.0)
-		*m = mat4_rotate_axis(*m, AXIS_Z, v.z);
+		m_rotate_z(m, v.z);
 }
 
 void	model_move_inertia(t_env *env, float inertia)

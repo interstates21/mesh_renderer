@@ -1,16 +1,5 @@
 #include "scop.h"
 
-t_mat4	mat4_add(t_mat4 a, t_mat4 b)
-{
-	int		i;
-
-	i = -1;
-	while (++i < 16)
-		a.m[i] += b.m[i];
-	return (a);
-}
-
-
 t_mat4	mat4_copy(t_mat4 *a, t_mat4 b)
 {
 	int i;
@@ -71,74 +60,48 @@ t_mat4	mat4_mul(t_mat4 a, t_mat4 b)
 	return (m);
 }
 
-void	get_axis_x_rotation_matrix(t_mat4 *m, float theta)
-{
-	m->m[5] = cos(theta);
-	m->m[6] = sin(theta);
-	m->m[9] = -sin(theta);
-	m->m[10] = cos(theta);
-}
-
-void	get_axis_y_rotation_matrix(t_mat4 *m, float theta)
-{
-	m->m[0] = cos(theta);
-	m->m[2] = -sin(theta);
-	m->m[8] = sin(theta);
-	m->m[10] = cos(theta);
-}
-
-void	get_axis_z_rotation_matrix(t_mat4 *m, float theta)
-{
-	m->m[0] = cos(theta);
-	m->m[1] = sin(theta);
-	m->m[4] = -sin(theta);
-	m->m[5] = cos(theta);
-}
-
-t_mat4	mat4_rotate_axis(t_mat4 m, int axis, float angle)
+void	m_rotate_x(t_mat4 *m, float angle)
 {
 	t_mat4	r;
 	float	theta;
 
 	r = m_iden();
 	theta = angle * (M_PI / 180);
-	if (axis == AXIS_X)
-	{
-		get_axis_x_rotation_matrix(&r, theta);
-		m = mat4_mul(m, r);
-	}
-	else if (axis == AXIS_Y)
-	{
-		get_axis_y_rotation_matrix(&r, theta);
-		m = mat4_mul(m, r);
-	}
-	else if (axis == AXIS_Z)
-	{
-		get_axis_z_rotation_matrix(&r, theta);
-		m = mat4_mul(m, r);
-	}
-	return (m);
+	r.m[5] = cos(theta);
+	r.m[6] = sin(theta);
+	r.m[9] = -sin(theta);
+	r.m[10] = cos(theta);
+	*m = mat4_mul(*m, r);
 }
 
-t_mat4	mat4_scale(t_mat4 m, float f)
+void	m_rotate_y(t_mat4 *m, float angle)
 {
-	int	i;
+	t_mat4	r;
+	float	theta;
 
-	i = -1;
-	while (++i < 16)
-		m.m[i] *= f;
-	return (m);
+	r = m_iden();
+	theta = angle * (M_PI / 180);
+	r.m[0] = cos(theta);
+	r.m[2] = -sin(theta);
+	r.m[8] = sin(theta);
+	r.m[10] = cos(theta);
+	*m = mat4_mul(*m, r);
 }
 
-t_mat4	mat4_sub(t_mat4 a, t_mat4 b)
+void	m_rotate_z(t_mat4 *m, float angle)
 {
-	int		i;
+	t_mat4	r;
+	float	theta;
 
-	i = -1;
-	while (++i < 16)
-		a.m[i] -= b.m[i];
-	return (a);
+	r = m_iden();
+	theta = angle * (M_PI / 180);
+	r.m[0] = cos(theta);
+	r.m[1] = sin(theta);
+	r.m[4] = -sin(theta);
+	r.m[5] = cos(theta);
+	*m = mat4_mul(*m, r);
 }
+
 
 t_mat4	mat4_transpose(t_mat4 m)
 {
