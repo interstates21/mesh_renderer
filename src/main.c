@@ -55,7 +55,7 @@ void	run(char *filename)
 {
 	t_env	env;
 
-	int	i;
+	register size_t	i;
 
 	i = -1;
 	while (++i < MAX_KEYS)

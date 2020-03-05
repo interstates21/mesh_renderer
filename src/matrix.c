@@ -1,13 +1,17 @@
 #include "scop.h"
 
-t_m	mat4_copy(t_m *a, t_m b)
+void	m_cp(t_m *a, t_m b)
 {
-	int i;
+	int			i;
+	int			size;
 
-	i = -1;
-	while (++i < 16)
+	i = 0;
+	size = 16;
+	while (i < size)
+	{
 		a->data[i] = b.data[i];
-	return (*a);
+		i++;
+	}
 }
 
 t_m	m_iden()
@@ -105,17 +109,21 @@ void	m_rotate_z(t_m *m, float angle)
 
 t_m	mat4_transpose(t_m m)
 {
-	int		h;
-	int		w;
+	register size_t	y;
+	register size_t	x;
 	t_m	t;
 
-	h = -1;
-	while (++h < 4)
+	y = 0;
+	x = 0;
+	while (y < 4)
 	{
-		w = -1;
-		while (++w < 4)
-			t.data[w * 4 + h] = m.data[h * 4 + w];
+		x = 0;
+		while (x < 4) {
+			t.data[x * 4 + y] = m.data[y * 4 + x];
+			x++;
+		}
+		y++;
 	}
-	m = mat4_copy(&m, t);
+	m_cp(&m, t);
 	return (m);
 }

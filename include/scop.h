@@ -16,17 +16,6 @@
 # include <unistd.h>
 # include <GLFW/glfw3.h>
 
-
-# define AXIS_X 0
-# define AXIS_Y 1
-# define AXIS_Z 2
-
-# define IDENTITY 0x7FFFFFFF
-
-/*
-** Modification line 146 in GLFW/glfw3.h: OpenGL/gl.h -> OpenGL/gl3.h
-*/
-
 # define WINDOW_NAME "Eternal beauty of graphics shit"
 # define OPENGL_VERSION "4.0"
 # define BUFFER_SIZE 128
@@ -209,7 +198,7 @@ typedef struct	s_v4f
 
 
 void			mat4_set(t_m *m, float f);
-t_m			mat4_copy(t_m *a, t_m b);
+void			m_cp(t_m *a, t_m b);
 t_m			mat4_add(t_m a, t_m b);
 t_m			mat4_sub(t_m a, t_m b);
 t_m			mat4_mul(t_m a, t_m b);

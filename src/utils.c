@@ -22,7 +22,7 @@ void	clean_glfw(t_env *env)
 
 int		array_len(void **tab)
 {
-	int	i;
+	register int	i;
 
 	i = 0;
 	while (tab[i] != NULL)

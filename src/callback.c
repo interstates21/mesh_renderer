@@ -14,7 +14,7 @@
 
 void	key_handle(t_env *env)
 {
-	int	i;
+	register int	i;
 
 	if (glfwGetKey(env->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(env->window, GL_TRUE);
