@@ -68,7 +68,7 @@ void	camera_look_at_target(t_env *env)
 	env->cam.front = v3_norm(v3_min(env->cam.pos, env->cam.target));
 	env->cam.right = v3_norm(v3_cross(env->cam.up, env->cam.front));
 	tmp = v3_cross(env->cam.front, env->cam.right);
-	mat4_set(&view, IDENTITY);
+	view = m_iden();
 	view.m[0] = env->cam.right.x;
 	view.m[1] = tmp.x;
 	view.m[2] = env->cam.front.x;

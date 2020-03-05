@@ -21,19 +21,32 @@ t_mat4	mat4_copy(t_mat4 *a, t_mat4 b)
 	return (*a);
 }
 
-void	mat4_set(t_mat4 *m, float f)
+t_mat4	m_iden()
 {
 	int		i;
+	t_mat4	temp;
 
-	i = -1;
-	while (++i < 16)
-	{
-		if (f == IDENTITY)
-			m->m[i] = (i % 5 == 0 ? 1 : 0);
-		else
-			m->m[i] = f;
+	i = 0;
+	while (i < 16) {
+		temp.m[i] = (i % 5 == 0 ? 1 : 0);
+		i++;
 	}
+	return (temp);
 }
+
+t_mat4	m_zero()
+{
+	int		i;
+	t_mat4	temp;
+
+	i = 0;
+	while (i < 16) {
+		temp.m[i] = 0;
+		i++;
+	}
+	return (temp);
+}
+
 
 
 t_mat4	mat4_mul(t_mat4 a, t_mat4 b)
@@ -87,7 +100,7 @@ t_mat4	mat4_rotate_axis(t_mat4 m, int axis, float angle)
 	t_mat4	r;
 	float	theta;
 
-	mat4_set(&r, IDENTITY);
+	r = m_iden();
 	theta = angle * (M_PI / 180);
 	if (axis == AXIS_X)
 	{

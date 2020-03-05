@@ -9,7 +9,7 @@ void	set_projection_matrix(t_env *env, float fov)
 	far = CAMERA_FAR;
 	near = CAMERA_NEAR;
 	s = 1 / (tan(fov * 0.5 * M_PI / 180.0));
-	mat4_set(&env->sim.projection, 0);
+	env->sim.projection = m_zero();
 	env->sim.projection.m[0] = s / ASPECT_RATIO;
 	env->sim.projection.m[5] = s;
 	env->sim.projection.m[10] = -(far + near) / (far - near);

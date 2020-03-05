@@ -10,11 +10,11 @@ void	glfw_loop(void)
 
 void	init_matrices(t_env *env)
 {
-	mat4_set(&env->sim.model, IDENTITY);
-	mat4_set(&env->sim.view, IDENTITY);
+	env->sim.model = m_iden();
+	env->sim.view = m_iden();
 	set_projection_matrix(env, FOV);
-	mat4_set(&env->model.rotation, IDENTITY);
-	mat4_set(&env->model.translation, IDENTITY);
+	env->model.rotation = m_iden();
+	env->model.translation = m_iden();
 	env->model.inertia = v(0, 0, 0);
 	env->model.center_axis = v(0, 0, 0);
 }
@@ -63,7 +63,7 @@ void	run(char *filename)
 	env.model.filename = filename;
 	init(&env);
 	load_obj(&env, env.model.filename);
-	load_bmp(&env, "./resources/cat.bmp");
+	load_bmp(&env, "./resources/pony.bmp");
 	build_shader_program(&env);
 	create_buffers(&env, GL_DYNAMIC_DRAW);
 	glBindVertexArray(0);

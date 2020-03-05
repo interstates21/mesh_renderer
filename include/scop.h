@@ -317,4 +317,6 @@ double	v3_magnitude(t_v3f a);
 t_v3f	v3_norm(t_v3f a);
 t_v3f	v3_cross(t_v3f a, t_v3f b);
 t_v2f	v3_to_v2(t_v3f a);
+t_mat4	m_zero();
+t_mat4	m_iden();
 #endif
