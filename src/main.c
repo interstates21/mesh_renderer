@@ -15,22 +15,22 @@ void	init_matrices(t_env *env)
 	set_projection_matrix(env, FOV);
 	mat4_set(&env->model.rotation, IDENTITY);
 	mat4_set(&env->model.translation, IDENTITY);
-	vec3_set(&env->model.inertia, 0);
-	vec3_set(&env->model.center_axis, 0);
+	env->model.inertia = v(0, 0, 0);
+	env->model.center_axis = v(0, 0, 0);
 }
 
 void	init_cam(t_env *env)
 {
-	t_vec3	up;
+	t_v3f	up;
 
-	up = vec3(0, 1, 0);
-	env->cam.pos = vec3(0, 0, 3);
-	env->cam.target = vec3(0, 0, 0);
-	env->cam.dir = vec3_normalize(vec3_sub(env->cam.pos, env->cam.target));
-	env->cam.right = vec3_normalize(vec3_cross(up, env->cam.dir));
-	env->cam.up = vec3_cross(env->cam.dir, env->cam.right);
-	env->cam.front = vec3_cross(env->cam.up, env->cam.right);
-	vec3_set(&env->cam.inertia, 0);
+	up = v(0, 1, 0);
+	env->cam.pos = v(0, 0, 3);
+	env->cam.target = v(0, 0, 0);
+	env->cam.dir = v3_norm(v3_min(env->cam.pos, env->cam.target));
+	env->cam.right = v3_norm(v3_cross(up, env->cam.dir));
+	env->cam.up = v3_cross(env->cam.dir, env->cam.right);
+	env->cam.front = v3_cross(env->cam.up, env->cam.right);
+	env->cam.inertia = v(0, 0, 0);
 	env->cam.velocity = 0.005;
 }
 

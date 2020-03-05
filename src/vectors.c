@@ -1,26 +1,32 @@
-#include "../includes/common.h"
+#include "scop.h"
 
-t_vec2f	v2_min(t_vec2f a, t_vec2f b)
-{
-	t_vec2f c;
+t_v3f	v(double x, double y, double z) {
+	t_v3f c;
 
-	c.x = a.x - b.x;
-	c.y = a.y - b.y;
+	c.x = x;
+	c.y = y;
+	c.z = z;
 	return (c);
 }
 
-t_vec2f	v2_plus(t_vec2f a, t_vec2f b)
+double	v3_dot(t_v3f a, t_v3f b)
 {
-	t_vec2f c;
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
 
-	c.x = a.x + b.x;
-	c.y = a.y + b.y;
+t_v3f	v3_cross(t_v3f a, t_v3f b)
+{
+	t_v3f c;
+
+	c.x = a.y * b.z - a.z * b.y;
+	c.y = a.z * b.x - a.x * b.z;
+	c.z = a.x * b.y - a.y * b.x;
 	return (c);
 }
 
-t_vec3f	v3_min(t_vec3f a, t_vec3f b)
+t_v3f	v3_min(t_v3f a, t_v3f b)
 {
-	t_vec3f c;
+	t_v3f c;
 
 	c.x = a.x - b.x;
 	c.y = a.y - b.y;
@@ -28,9 +34,9 @@ t_vec3f	v3_min(t_vec3f a, t_vec3f b)
 	return (c);
 }
 
-t_vec3f	v3_plus(t_vec3f a, t_vec3f b)
+t_v3f	v3_plus(t_v3f a, t_v3f b)
 {
-	t_vec3f c;
+	t_v3f c;
 
 	c.x = a.x + b.x;
 	c.y = a.y + b.y;
@@ -38,9 +44,9 @@ t_vec3f	v3_plus(t_vec3f a, t_vec3f b)
 	return (c);
 }
 
-t_vec3f	v3_scale(t_vec3f a, double n)
+t_v3f	v3_scale(t_v3f a, double n)
 {
-	t_vec3f c;
+	t_v3f c;
 
 	c.x = a.x * n;
 	c.y = a.y * n;
@@ -48,16 +54,7 @@ t_vec3f	v3_scale(t_vec3f a, double n)
 	return (c);
 }
 
-t_vec2f	v2_scale(t_vec2f a, double n)
-{
-	t_vec2f c;
-
-	c.x = a.x * n;
-	c.y = a.y * n;
-	return (c);
-}
-
-void	actualize_dir(double diff, t_vec2f *dir)
+void	v3_dir(double diff, t_v2f *dir)
 {
 	double	x;
 	double	y;
@@ -68,61 +65,30 @@ void	actualize_dir(double diff, t_vec2f *dir)
 	dir->y = x * sin(diff) + y * cos(diff);
 }
 
-double	vec3f_length(t_vec3f v)
+double	v3_magnitude(t_v3f a)
 {
-	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
+	return (sqrt(a.x * a.x + a.y * a.y + a.z * a.z));
 }
 
-t_vec3f	v2_to_v3(t_vec2f a)
+t_v3f	v3_norm(t_v3f a)
 {
-	t_vec3f c;
+	t_v3f	c;
+	double	l;
 
-	c.x = a.x;
-	c.y = 0;
-	c.z = a.y;
+	l = v3_magnitude(a);
+	c.x = a.x / l;
+	c.y = a.y / l;
+	c.z = a.z / l;
 	return (c);
 }
 
-t_vec2f	v3_to_v2(t_vec3f a)
+
+t_v2f	v3_to_v2(t_v3f a)
 {
-	t_vec2f c;
+	t_v2f c;
 
 	c.x = a.x;
 	c.y = a.z;
 	return (c);
 }
 
-bool	is_inside_vec2f(t_vec2f p1, t_vec2f p2, t_vec2f point)
-{
-	if ((point.x < p1.x && point.x < p2.x) ||
-			(point.x > p1.x && point.x > p2.x))
-		return (false);
-	if ((point.y < p1.y && point.y < p2.y) ||
-			(point.y > p1.y && point.y > p2.y))
-		return (false);
-	return (true);
-}
-
-float	v2_dot(t_vec2f v)
-{
-	return (v.x * v.x + v.y * v.y);
-}
-
-double	v2_len(t_vec2f v)
-{
-	return (sqrt(v.x * v.x + v.y * v.y));
-}
-
-double	v2_atan(t_vec2f v1, t_vec2f v2)
-{
-	return (atan2(v1.x * v2.y - v1.y * v2.x, v1.x * v2.x + v1.y * v2.y));
-}
-
-void	v2_rot(t_vec2f *p, double angle)
-{
-	t_vec2f temp;
-
-	temp = *p;
-	p->x = temp.x * cos(angle) - temp.y * sin(angle);
-	p->y = temp.x * sin(angle) + temp.y * cos(angle);
-}

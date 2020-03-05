@@ -65,27 +65,27 @@ GLuint	*append_indices(GLuint *array, char *line, int *length)
 	return (array);
 }
 
-t_vec3	compute_center_axis(GLfloat *vertices, int num_vertices)
+t_v3f	compute_center_axis(GLfloat *vertices, int num_vertices)
 {
 	int		i;
-	t_vec3	max;
-	t_vec3	min;
-	t_vec3	center;
+	t_v3f	max;
+	t_v3f	min;
+	t_v3f	center;
 
 	i = 0;
-	max = vec3(0, 0, 0);
-	min = vec3(0, 0, 0);
+	max = v(0, 0, 0);
+	min = v(0, 0, 0);
 	while (i < num_vertices - 6)
 	{
-		vertices[i] > max.v[0] ? max.v[0] = vertices[i] : 0;
-		vertices[i] < min.v[0] ? min.v[0] = vertices[i] : 0;
-		vertices[i + 1] > max.v[1] ? max.v[1] = vertices[i + 1] : 0;
-		vertices[i + 1] < min.v[1] ? min.v[1] = vertices[i + 1] : 0;
-		vertices[i + 2] > max.v[2] ? max.v[2] = vertices[i + 2] : 0;
-		vertices[i + 2] < min.v[2] ? min.v[2] = vertices[i + 2] : 0;
+		vertices[i] > max.x ? max.x = vertices[i] : 0;
+		vertices[i] < min.x ? min.x = vertices[i] : 0;
+		vertices[i + 1] > max.y ? max.y = vertices[i + 1] : 0;
+		vertices[i + 1] < min.y ? min.y = vertices[i + 1] : 0;
+		vertices[i + 2] > max.z ? max.z = vertices[i + 2] : 0;
+		vertices[i + 2] < min.z ? min.z = vertices[i + 2] : 0;
 		i += 6;
 	}
-	center = vec3_fmul(vec3_add(max, min), 0.5);
+	center = v3_scale(v3_plus(max, min), 0.5);
 	return (center);
 }
 
@@ -99,9 +99,9 @@ void	center_vertices(t_env *env, int length)
 	theta = 90 * (M_PI / 180);
 	while (i < length)
 	{
-		env->model.vertices[i] -= env->model.center_axis.v[0];
-		env->model.vertices[i + 1] -= env->model.center_axis.v[1];
-		env->model.vertices[i + 2] -= env->model.center_axis.v[2];
+		env->model.vertices[i] -= env->model.center_axis.x;
+		env->model.vertices[i + 1] -= env->model.center_axis.y;
+		env->model.vertices[i + 2] -= env->model.center_axis.z;
 		tx = env->model.vertices[i] * cos(theta) -
 			env->model.vertices[i + 2] * sin(theta);
 		env->model.vertices[i + 2] = env->model.vertices[i] * sin(theta) +
@@ -109,7 +109,7 @@ void	center_vertices(t_env *env, int length)
 		env->model.vertices[i] = tx;
 		i += 6;
 	}
-	env->model.center_axis = vec3(0, 0, 0);
+	env->model.center_axis = v(0, 0, 0);
 }
 
 void	load_obj(t_env *e, char *filename)

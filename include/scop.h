@@ -5,7 +5,6 @@
 ** User librairies
 */
 # include "libft.h"
-# include "libmat4.h"
  #include <fcntl.h>
 
 /*
@@ -16,6 +15,21 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <GLFW/glfw3.h>
+
+# define MATRIX_ADDITION_ERR 0
+# define MATRIX_SUBSTRACTION_ERR 1
+# define MATRIX_MULTIPLICATION_ERR 2
+# define MATRIX_TRANSPOSE_ERR 3
+# define MATRIX_COPY_DATA_ERR 4
+
+# define STAY 0
+# define EXIT 1
+
+# define AXIS_X 0
+# define AXIS_Y 1
+# define AXIS_Z 2
+
+# define IDENTITY 0x7FFFFFFF
 
 /*
 ** Modification line 146 in GLFW/glfw3.h: OpenGL/gl.h -> OpenGL/gl3.h
@@ -75,6 +89,13 @@
 # define FREE 0
 # define LOCKED 1
 
+typedef struct	s_v3f
+{
+	double	x;
+	double	y;
+	double	z;
+	double	option;
+}				t_v3f;
 
 typedef struct	s_mat4
 {
@@ -94,13 +115,13 @@ typedef struct	s_texture
 
 typedef struct	s_cam
 {
-	t_vec3	pos;
-	t_vec3	dir;
-	t_vec3	target;
-	t_vec3	up;
-	t_vec3	right;
-	t_vec3	front;
-	t_vec3	inertia;
+	t_v3f	pos;
+	t_v3f	dir;
+	t_v3f	target;
+	t_v3f	up;
+	t_v3f	right;
+	t_v3f	front;
+	t_v3f	inertia;
 	float	velocity;
 }				t_cam;
 
@@ -119,8 +140,8 @@ typedef struct	s_model
 	unsigned int	size_indices;
 	unsigned int	size_vertices;
 	unsigned int	num_indices;
-	t_vec3			center_axis;
-	t_vec3			inertia;
+	t_v3f			center_axis;
+	t_v3f			inertia;
 	t_texture		texture;
 	float			velocity;
 	char			*filename;
@@ -178,12 +199,12 @@ typedef struct	s_env
 	t_model		model;
 }				t_env;
 
-typedef struct	s_v3f
+
+typedef struct	s_v2f
 {
-	float	x;
-	float	y;
-	float	z;
-}				t_v3f;
+	double	x;
+	double	y;
+}				t_v2f;
 
 typedef struct	s_v4f
 {
@@ -242,7 +263,7 @@ void			create_buffers(t_env *env, int mode);
 void			load_obj(t_env *env, char *filename);
 GLfloat			*append_vertices(GLfloat *array, char *line, int *length);
 GLuint			*append_indices(GLuint *array, char *line, int *length);
-t_vec3			compute_center_axis(GLfloat	*vertices, int num_vertices);
+t_v3f			compute_center_axis(GLfloat	*vertices, int num_vertices);
 void			center_vertices(t_env *env, int length);
 
 /*
@@ -270,8 +291,8 @@ void			compute_mvp_matrix(t_env *env);
 /*
 ** movement.c
 */
-void			translate(t_mat4 *m, t_vec3 v);
-void			rotate(t_mat4 *m, t_vec3 v);
+void			translate(t_mat4 *m, t_v3f v);
+void			rotate(t_mat4 *m, t_v3f v);
 void			model_move_inertia(t_env *env, float inertia);
 void			model_move_demo(t_env *env);
 
@@ -286,4 +307,14 @@ void			camera_look_at_target(t_env *env);
 void    		print_err(char *str);
 void			init_gl(t_env *env);
 
+t_v3f	v(double x, double y, double z);
+double	v3_dot(t_v3f a, t_v3f b);
+t_v3f	v3_min(t_v3f a, t_v3f b);
+t_v3f	v3_plus(t_v3f a, t_v3f b);
+t_v3f	v3_scale(t_v3f a, double n);
+void	v3_dir(double diff, t_v2f *dir);
+double	v3_magnitude(t_v3f a);
+t_v3f	v3_norm(t_v3f a);
+t_v3f	v3_cross(t_v3f a, t_v3f b);
+t_v2f	v3_to_v2(t_v3f a);
 #endif
