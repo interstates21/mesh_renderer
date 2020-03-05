@@ -19,6 +19,6 @@ void	set_projection_matrix(t_env *env, float fov)
 
 void	compute_mvp_matrix(t_env *env)
 {
-	env->sim.mvp = mat4_mul(mat4_transpose(env->sim.model),
-		mat4_mul(env->sim.view, env->sim.projection));
+	env->sim.mvp = m_mult(m4_trans(env->sim.model),
+		m_mult(env->sim.view, env->sim.projection));
 }

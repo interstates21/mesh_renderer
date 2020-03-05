@@ -72,7 +72,7 @@ void	run(char *filename)
 	{
 		glfw_loop();
 		key_handle(&env);
-		env.sim.model = mat4_mul(env.model.translation, env.model.rotation);
+		env.sim.model = m_mult(env.model.translation, env.model.rotation);
 		glUseProgram(env.shader.program);
 		compute_mvp_matrix(&env);
 		update_shader_uniforms(&env);
