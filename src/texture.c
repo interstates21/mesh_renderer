@@ -1,31 +1,19 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   texture.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: wwatkins <wwatkins@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/12/09 10:39:39 by wwatkins          #+#    #+#             */
-/*   Updated: 2016/12/12 11:37:11 by wwatkins         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "scop.h"
 
 void	read_header(char *filename, t_texture *texture)
 {
-	FILE	*file;
+	int			fd;
+	size_t		bpp;
 
-	if ((file = fopen(filename, "r")) == NULL)
-		print_err("bmp file opening (fopen) failed.");
-	fseek(file, 18, SEEK_SET);
-	fread(&texture->w, 4, 1, file);
-	fread(&texture->h, 4, 1, file);
-	fseek(file, 2, SEEK_CUR);
-	fread(&texture->bpp, 2, 1, file);
-	fclose(file);
-	texture->opp = texture->bpp / 8;
-	texture->sl = texture->w * texture->opp;
+	if ((fd = open(filename, O_RDONLY)) == -1)
+		print_err("Read Header Failed");
+	lseek(fd, 18, SEEK_SET);
+	read(fd, &texture->w, 4);
+	read(fd,&texture->h, 4);
+	lseek(fd, 2, SEEK_CUR);
+	read(fd, &bpp, 2);
+	close(fd);
+	texture->sl = texture->w * (bpp / 8);
 	texture->w < 0 ? texture->w = -texture->w : 0;
 	texture->h < 0 ? texture->h = -texture->h : 0;
 	texture->size = texture->sl * texture->h;
@@ -57,10 +45,11 @@ void	get_image(t_texture *texture, char *buffer, int i)
 
 void	load_bmp(t_env *env, char *filename)
 {
-	int		fd;
-	int		i;
-	char	*buffer;
+	int					fd;
+	register size_t		i;
+	char				*buffer;
 
+	i = 0;
 	read_header(filename, &env->model.texture);
 	buffer = (char*)malloc(sizeof(char) * env->model.texture.size + 1);
 	if ((fd = open(filename, O_RDWR)) == -1)

@@ -63,7 +63,7 @@ void	run(char *filename)
 	env.model.filename = filename;
 	init(&env);
 	load_obj(&env, env.model.filename);
-	load_bmp(&env, "./resources/pony.bmp");
+	load_bmp(&env, "./resources/poney.bmp");
 	build_shader_program(&env);
 	create_buffers(&env, GL_DYNAMIC_DRAW);
 	glBindVertexArray(0);

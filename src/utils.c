@@ -20,16 +20,6 @@ void	clean_glfw(t_env *env)
 	glfwTerminate();
 }
 
-// int		array_len(void **tab)
-// {
-// 	register int	i;
-
-// 	i = 0;
-// 	while (tab[i] != NULL)
-// 		i++;
-// 	return (i);
-// }
-
 GLuint	*gluint_array_copy(GLuint *array, int length, int m)
 {
 	int		i;

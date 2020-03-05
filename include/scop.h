@@ -92,8 +92,6 @@ typedef struct	s_texture
 	int				w;
 	int				h;
 	int				sl;
-	short			bpp;
-	short			opp;
 }				t_texture;
 
 typedef struct	s_cam
