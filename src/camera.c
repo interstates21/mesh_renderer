@@ -53,33 +53,33 @@ void	camera_center(t_env *env)
 {
 	t_v3f	model_pos;
 
-	model_pos.x = env->model.translation.m[3];
-	model_pos.y = env->model.translation.m[7];
-	model_pos.z = env->model.translation.m[11];
+	model_pos.x = env->model.translation.data[3];
+	model_pos.y = env->model.translation.data[7];
+	model_pos.z = env->model.translation.data[11];
 	env->cam.target = v3_plus(env->model.center_axis, model_pos);
 }
 
 void	camera_look_at_target(t_env *env)
 {
 	t_v3f	tmp;
-	t_mat4	view;
+	t_m	view;
 
 	tmp = env->cam.up;
 	env->cam.front = v3_norm(v3_min(env->cam.pos, env->cam.target));
 	env->cam.right = v3_norm(v3_cross(env->cam.up, env->cam.front));
 	tmp = v3_cross(env->cam.front, env->cam.right);
 	view = m_iden();
-	view.m[0] = env->cam.right.x;
-	view.m[1] = tmp.x;
-	view.m[2] = env->cam.front.x;
-	view.m[4] = env->cam.right.y;
-	view.m[5] = tmp.y;
-	view.m[6] = env->cam.front.y;
-	view.m[8] = env->cam.right.z;
-	view.m[9] = tmp.z;
-	view.m[10] = env->cam.front.z;
-	view.m[12] = -v3_dot(env->cam.right, env->cam.pos);
-	view.m[13] = -v3_dot(tmp, env->cam.pos);
-	view.m[14] = -v3_dot(env->cam.front, env->cam.pos);
+	view.data[0] = env->cam.right.x;
+	view.data[1] = tmp.x;
+	view.data[2] = env->cam.front.x;
+	view.data[4] = env->cam.right.y;
+	view.data[5] = tmp.y;
+	view.data[6] = env->cam.front.y;
+	view.data[8] = env->cam.right.z;
+	view.data[9] = tmp.z;
+	view.data[10] = env->cam.front.z;
+	view.data[12] = -v3_dot(env->cam.right, env->cam.pos);
+	view.data[13] = -v3_dot(tmp, env->cam.pos);
+	view.data[14] = -v3_dot(env->cam.front, env->cam.pos);
 	env->sim.view = view;
 }

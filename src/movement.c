@@ -12,14 +12,14 @@
 
 #include "scop.h"
 
-void	translate(t_mat4 *m, t_v3f v)
+void	translate(t_m *m, t_v3f v)
 {
-	m->m[3] += v.x;
-	m->m[7] += v.y;
-	m->m[11] += v.z;
+	m->data[3] += v.x;
+	m->data[7] += v.y;
+	m->data[11] += v.z;
 }
 
-void	rotate(t_mat4 *m, t_v3f v)
+void	rotate(t_m *m, t_v3f v)
 {
 	if (v.x != 0.0)
 		m_rotate_x(m, v.x);

@@ -89,10 +89,10 @@ typedef struct	s_v3f
 	double	option;
 }				t_v3f;
 
-typedef struct	s_mat4
+typedef struct	s_m
 {
-	float	m[16];
-}				t_mat4;
+	float	data[16];
+}				t_m;
 
 typedef struct	s_texture
 {
@@ -125,8 +125,8 @@ typedef struct	s_key
 
 typedef struct	s_model
 {
-	t_mat4			translation;
-	t_mat4			rotation;
+	t_m			translation;
+	t_m			rotation;
 	GLfloat			*vertices;
 	GLuint			*indices;
 	unsigned int	size_indices;
@@ -141,10 +141,10 @@ typedef struct	s_model
 
 typedef struct	s_sim
 {
-	t_mat4	model;
-	t_mat4	view;
-	t_mat4	projection;
-	t_mat4	mvp;
+	t_m	model;
+	t_m	view;
+	t_m	projection;
+	t_m	mvp;
 }				t_sim;
 
 typedef struct	s_buffer
@@ -208,16 +208,16 @@ typedef struct	s_v4f
 
 
 
-void			mat4_set(t_mat4 *m, float f);
-t_mat4			mat4_copy(t_mat4 *a, t_mat4 b);
-t_mat4			mat4_add(t_mat4 a, t_mat4 b);
-t_mat4			mat4_sub(t_mat4 a, t_mat4 b);
-t_mat4			mat4_mul(t_mat4 a, t_mat4 b);
-t_mat4			mat4_scale(t_mat4 m, float f);
-t_mat4			mat4_transpose(t_mat4 m);
-void			m_rotate_x(t_mat4 *m, float angle);
-void			m_rotate_y(t_mat4 *m, float angle);
-void			m_rotate_z(t_mat4 *m, float angle);
+void			mat4_set(t_m *m, float f);
+t_m			mat4_copy(t_m *a, t_m b);
+t_m			mat4_add(t_m a, t_m b);
+t_m			mat4_sub(t_m a, t_m b);
+t_m			mat4_mul(t_m a, t_m b);
+t_m			mat4_scale(t_m m, float f);
+t_m			mat4_transpose(t_m m);
+void			m_rotate_x(t_m *m, float angle);
+void			m_rotate_y(t_m *m, float angle);
+void			m_rotate_z(t_m *m, float angle);
 
 
 /*
@@ -285,8 +285,8 @@ void			compute_mvp_matrix(t_env *env);
 /*
 ** movement.c
 */
-void			translate(t_mat4 *m, t_v3f v);
-void			rotate(t_mat4 *m, t_v3f v);
+void			translate(t_m *m, t_v3f v);
+void			rotate(t_m *m, t_v3f v);
 void			model_move_inertia(t_env *env, float inertia);
 void			model_move_demo(t_env *env);
 
@@ -311,6 +311,6 @@ double	v3_magnitude(t_v3f a);
 t_v3f	v3_norm(t_v3f a);
 t_v3f	v3_cross(t_v3f a, t_v3f b);
 t_v2f	v3_to_v2(t_v3f a);
-t_mat4	m_zero();
-t_mat4	m_iden();
+t_m	m_zero();
+t_m	m_iden();
 #endif
