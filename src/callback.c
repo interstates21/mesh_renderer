@@ -51,8 +51,7 @@ void	key_handle(t_world *world)
 
 void	key_action(t_world *world)
 {
-	if (world->key[MW].code)
-		glPolygonMode(GL_FRONT_AND_BACK, world->wireframe);
+	glPolygonMode(GL_FRONT_AND_BACK, world->mode == WIREFRAME ? GL_LINE : GL_FILL);
 	if (world->key[ZP].code || world->key[ZM].code)
 		camera_zoom(world);
 	camera_center(world);

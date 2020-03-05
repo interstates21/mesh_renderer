@@ -70,6 +70,7 @@
 # define MT GLFW_KEY_T
 
 # define MAX_KEYS 348
+# define MODES_LEN 4
 
 # define FREE 0
 # define LOCKED 1
@@ -98,6 +99,7 @@ typedef enum
     BASIC, 
     GREYSCALE, 
     TEXTURED,
+	WIREFRAME
 } 		t_modes;
 
 typedef struct	s_texture
@@ -171,7 +173,6 @@ typedef struct	s_world
 	t_m				mvp;
 	t_cam			cam;
 	t_key			key[MAX_KEYS];
-	int				wireframe;
 	t_buffer		buffer;
 	t_shader		shader;
 	t_modes			mode;
