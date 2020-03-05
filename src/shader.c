@@ -82,6 +82,8 @@ void			build_shader_program(t_world *world)
 {
 	GLuint	shader_vert;
 	GLuint	shader_frag;
+	// GLfloat timeValue = glfwGetTime();
+	// GLfloat greenValue = (sin(timeValue) / 2) + 0.5;
 
 	shader_vert = create_shader("./shader/vertex.glsl", GL_VERTEX_SHADER);
 	shader_frag = create_shader("./shader/fragment.glsl", GL_FRAGMENT_SHADER);
