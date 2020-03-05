@@ -32,9 +32,9 @@ GLfloat	*append_vertices(GLfloat *array, char *line, int *length)
 	{
 		array[*length - 6 + j] = (GLfloat)ft_atof(tab[j]);
 		array[*length - 3 + j] = j * 0.66f;
-		ft_strdel(&tab[j]);
+		free(tab[j]);
 	}
-	ft_strdel(&tab[j]);
+	free(tab[j]);
 	free(tab);
 	tab = NULL;
 	return (array);
@@ -60,9 +60,9 @@ GLuint	*append_indices(GLuint *array, char *line, int *length)
 		if (m == 6)
 			array[*length - m + 3 + j] =
 			(GLuint)ft_atoi(tab[j > 0 ? j + 1 : 0]) - 1;
-		ft_strdel(&tab[j]);
+		free(tab[j]);
 	}
-	ft_strdel(&tab[j]);
+	free(tab[j]);
 	free(tab);
 	tab = NULL;
 	return (array);
@@ -134,9 +134,9 @@ void	load_obj(t_env *e, char *filename)
 			e->model.vertices = append_vertices(e->model.vertices, line, &v);
 		else if (line[0] == 'f' && line[1] == ' ')
 			e->model.indices = append_indices(e->model.indices, line, &f);
-		ft_strdel(&line);
+		free(line);
 	}
-	ft_strdel(&line);
+	free(line);
 	e->model.size_vertices = v * sizeof(GLfloat);
 	e->model.size_indices = f * sizeof(GLuint);
 	e->model.num_indices = f;
