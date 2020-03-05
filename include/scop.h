@@ -108,8 +108,8 @@ typedef struct	s_cam
 
 typedef struct	s_key
 {
-	short	code;
-	short	cooldown;
+	int	code;
+	int	cooldown;
 }				t_key;
 
 typedef struct	s_model
@@ -209,16 +209,6 @@ void			m_rotate_x(t_m *m, float angle);
 void			m_rotate_y(t_m *m, float angle);
 void			m_rotate_z(t_m *m, float angle);
 
-
-/*
-** init.c
-*/
-void			init_glfw_env(void);
-void			init_glfw_win(t_env *env);
-void			init_matrices(t_env *env);
-void			init_cam(t_env *env);
-void			init(t_env *env);
-
 /*
 ** callback.c
 */
@@ -299,4 +289,5 @@ t_v3f	v3_cross(t_v3f a, t_v3f b);
 t_v2f	v3_to_v2(t_v3f a);
 t_m	m_zero();
 t_m	m_iden();
+t_env	init_manager(char *filename);
 #endif

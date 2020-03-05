@@ -12,7 +12,7 @@ GCC_LIBS = -lglfw3 -framework AppKit -framework OpenGL -framework IOKit -framewo
 
 SRC_NAME = main.c callback.c shader.c buffer.c utils.c \
 		   coordinate_system.c movement.c camera.c parsing.c texture.c errors.c init_gl.c matrix_gen.c \
-		   vectors.c matrix_mult.c matrix_utils.c
+		   vectors.c matrix_mult.c matrix_utils.c init_manager.c
 
 OBJ_NAME = $(SRC_NAME:.c=.o)
 LIB_NAME = libft glfw/src
