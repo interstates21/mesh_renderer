@@ -22,7 +22,7 @@
 # define COOLDOWN 20
 # define WIDTH 1600
 # define HEIGHT 800
-# define FOV 90
+# define FOV 80
 # define MATRIX_SIZE 4
 # define MATRIX_FULL_SIZE 16
 # define CAMERA_NEAR 0.001
@@ -112,21 +112,6 @@ typedef struct	s_key
 	int	cooldown;
 }				t_key;
 
-typedef struct	s_model
-{
-	t_m			translation;
-	t_m			rotation;
-	GLfloat			*vertices;
-	GLuint			*indices;
-	unsigned int	size_indices;
-	unsigned int	size_vertices;
-	unsigned int	num_indices;
-	t_v3f			center_axis;
-	t_v3f			inertia;
-	t_texture		texture;
-	float			velocity;
-	char			*filename;
-}				t_model;
 
 typedef struct	s_sim
 {
@@ -170,21 +155,32 @@ typedef struct	s_mod
 
 typedef struct	s_env
 {
-	GLFWwindow	*window;
-	t_sim		sim;
-	t_cam		cam;
-	t_key		key[MAX_KEYS];
-	int			wireframe;
-	int			focus;
-	int			shading;
-	int			color;
-	int			greyscale;
-	int			mapping;
-	int			texture;
-	t_buffer	buffer;
-	t_shader	shader;
-	t_model		model;
-}				t_env;
+	GLFWwindow		*window;
+	t_sim			sim;
+	t_cam			cam;
+	t_key			key[MAX_KEYS];
+	int				wireframe;
+	int				focus;
+	int				shading;
+	int				color;
+	int				greyscale;
+	int				mapping;
+	int				textured;
+	t_buffer		buffer;
+	t_shader		shader;
+	t_m				translation;
+	t_m				rotation;
+	GLfloat			*vertices;
+	GLuint			*indices;
+	unsigned int	size_indices;
+	unsigned int	size_vertices;
+	unsigned int	num_indices;
+	t_v3f			axis;
+	t_v3f			inertia;
+	t_texture		texture;
+	float			velocity;
+	char			*filename;
+}					t_env;
 
 
 typedef struct	s_v2f
@@ -243,7 +239,7 @@ void			create_buffers(t_env *env, int mode);
 void			load_obj(t_env *env, char *filename);
 GLfloat			*append_vertices(GLfloat *array, char *line, int *length);
 GLuint			*append_indices(GLuint *array, char *line, int *length);
-t_v3f			compute_center_axis(GLfloat	*vertices, int num_vertices);
+t_v3f			compute_axis(GLfloat	*vertices, int num_vertices);
 void			center_vertices(t_env *env, int length);
 
 /*

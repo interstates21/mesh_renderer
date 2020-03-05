@@ -22,13 +22,13 @@ int	run(char *filename)
 	{
 		glfw_loop();
 		key_handle(&env);
-		env.sim.model = m_mult(env.model.translation, env.model.rotation);
+		env.sim.model = m_mult(env.translation, env.rotation);
 		glUseProgram(env.shader.program);
 		compute_mvp_matrix(&env);
 		update_shader_uniforms(&env);
 		glBindTexture(GL_TEXTURE_2D, env.buffer.texture);
 		glBindVertexArray(env.buffer.vao);
-		glDrawElements(GL_TRIANGLES, env.model.num_indices, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, env.num_indices, GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
 		glfwSwapBuffers(env.window);
 	}

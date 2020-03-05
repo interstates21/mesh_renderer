@@ -27,7 +27,7 @@ void	key_handle(t_env *env)
 	key_toggle(&env->key[MC], &env->color, 0, 1);
 	key_toggle(&env->key[MG], &env->greyscale, 0, 1);
 	key_toggle(&env->key[MM], &env->mapping, 0, 1);
-	key_toggle(&env->key[MT], &env->texture, 0, 1);
+	key_toggle(&env->key[MT], &env->textured, 0, 1);
 	key_action(env);
 }
 

@@ -53,10 +53,10 @@ void	camera_center(t_env *env)
 {
 	t_v3f	model_pos;
 
-	model_pos.x = env->model.translation.data[3];
-	model_pos.y = env->model.translation.data[7];
-	model_pos.z = env->model.translation.data[11];
-	env->cam.target = v3_plus(env->model.center_axis, model_pos);
+	model_pos.x = env->translation.data[3];
+	model_pos.y = env->translation.data[7];
+	model_pos.z = env->translation.data[11];
+	env->cam.target = v3_plus(env->axis, model_pos);
 }
 
 void	camera_look_at_target(t_env *env)

@@ -17,7 +17,7 @@ static void	init_cam(t_env *env)
 	t_v3f	up;
 
 	up = v(0, 1, 0);
-	env->cam.velocity = 0.005;
+	env->cam.velocity = 0.007;
 	env->cam.target = v(0, 0, 0);
 	env->cam.pos = v(0, 0, 3);
 	env->cam.dir = v3_norm(v3_min(env->cam.pos, env->cam.target));
@@ -28,22 +28,22 @@ static void	init_cam(t_env *env)
 	env->sim.model = m_iden();
 	env->sim.view = m_iden();
 	set_projection_matrix(env, FOV);
-	env->model.translation = m_iden();
-	env->model.inertia = v(0, 0, 0);
-	env->model.rotation = m_iden();
-	env->model.center_axis = v(0, 0, 0);
+	env->translation = m_iden();
+	env->inertia = v(0, 0, 0);
+	env->rotation = m_iden();
+	env->axis = v(0, 0, 0);
 }
 
 static void	init_modes(t_env *env)
 {
 	env->wireframe = GL_FILL;
 	env->shading = 0;
-	env->focus = 1;
+	env->focus = 0;
 	env->greyscale = 0;
 	env->mapping = 0;
-	env->texture = 0;
+	env->textured = 0;
 	env->color = 0;
-	env->model.velocity = 0.33;
+	env->velocity = 0.8;
 }
 
 static void	init_keys(t_env *env)
@@ -62,7 +62,7 @@ t_env	init_manager(char *filename)
 {
 	t_env			env;
 
-	env.model.filename = filename;
+	env.filename = filename;
 	init_keys(&env);
 	init_gl(&env);
 	init_cam(&env);

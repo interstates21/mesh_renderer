@@ -68,7 +68,7 @@ GLuint	*append_indices(GLuint *array, char *line, int *length)
 	return (array);
 }
 
-t_v3f	compute_center_axis(GLfloat *vertices, int num_vertices)
+t_v3f	compute_axis(GLfloat *vertices, int num_vertices)
 {
 	int		i;
 	t_v3f	max;
@@ -102,17 +102,17 @@ void	center_vertices(t_env *env, int length)
 	theta = 90 * (M_PI / 180);
 	while (i < length)
 	{
-		env->model.vertices[i] -= env->model.center_axis.x;
-		env->model.vertices[i + 1] -= env->model.center_axis.y;
-		env->model.vertices[i + 2] -= env->model.center_axis.z;
-		tx = env->model.vertices[i] * cos(theta) -
-			env->model.vertices[i + 2] * sin(theta);
-		env->model.vertices[i + 2] = env->model.vertices[i] * sin(theta) +
-			env->model.vertices[i + 2] * cos(theta);
-		env->model.vertices[i] = tx;
+		env->vertices[i] -= env->axis.x;
+		env->vertices[i + 1] -= env->axis.y;
+		env->vertices[i + 2] -= env->axis.z;
+		tx = env->vertices[i] * cos(theta) -
+			env->vertices[i + 2] * sin(theta);
+		env->vertices[i + 2] = env->vertices[i] * sin(theta) +
+			env->vertices[i + 2] * cos(theta);
+		env->vertices[i] = tx;
 		i += 6;
 	}
-	env->model.center_axis = v(0, 0, 0);
+	env->axis = v(0, 0, 0);
 }
 
 void	load_obj(t_env *e, char *filename)
@@ -124,22 +124,22 @@ void	load_obj(t_env *e, char *filename)
 
 	v = 0;
 	f = 0;
-	e->model.vertices = (GLfloat*)malloc(sizeof(GLfloat) * 3);
-	e->model.indices = (GLuint*)malloc(sizeof(GLuint) * 3);
+	e->vertices = (GLfloat*)malloc(sizeof(GLfloat) * 3);
+	e->indices = (GLuint*)malloc(sizeof(GLuint) * 3);
 	if ((fd = open(filename, O_RDWR)) == -1)
 		print_err("obj file opening failed.");
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (line[0] == 'v' && line[1] == ' ')
-			e->model.vertices = append_vertices(e->model.vertices, line, &v);
+			e->vertices = append_vertices(e->vertices, line, &v);
 		else if (line[0] == 'f' && line[1] == ' ')
-			e->model.indices = append_indices(e->model.indices, line, &f);
+			e->indices = append_indices(e->indices, line, &f);
 		free(line);
 	}
 	free(line);
-	e->model.size_vertices = v * sizeof(GLfloat);
-	e->model.size_indices = f * sizeof(GLuint);
-	e->model.num_indices = f;
-	e->model.center_axis = compute_center_axis(e->model.vertices, v);
+	e->size_vertices = v * sizeof(GLfloat);
+	e->size_indices = f * sizeof(GLuint);
+	e->num_indices = f;
+	e->axis = compute_axis(e->vertices, v);
 	center_vertices(e, v);
 }
