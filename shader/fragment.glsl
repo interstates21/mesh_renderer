@@ -15,6 +15,15 @@ void	main()
 {
 	float	grey;
 
-	grey = (0.2125 * color.x + 0.7154 * color.y + 0.0721 * color.z) / 3.0f;
-	color = vec4(1.0f, 1.0f, 0, 1.0f);
+	if (smod)
+		color = fragment_color_s;
+	else
+		color = fragment_color_f;
+	if (tmod)
+		color = texture(ltexture, texture_coordinates);
+	if (gmod)
+	{
+		grey = (color.x + color.y + color.z);
+		color = vec4(grey, grey, grey, 1.0f);
+	}
 }

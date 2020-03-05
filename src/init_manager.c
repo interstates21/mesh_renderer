@@ -25,12 +25,13 @@ static void	init_cam(t_world *world)
 static void	init_modes(t_world *world)
 {
 	world->wireframe = GL_FILL;
-	world->shading = 0;
-	world->focus = 0;
-	world->greyscale = 0;
-	world->mapping = 0;
-	world->textured = 0;
-	world->color = 0;
+	world->mode = BASIC;
+	world->modes_len = 3;
+	// world->shading = 0;
+	// world->greyscale = 0;
+	// world->mapping = 0;
+	// world->textured = 0;
+	// world->color = 0;
 	world->velocity = 0.8;
 }
 

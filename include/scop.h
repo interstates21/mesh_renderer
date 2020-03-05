@@ -37,6 +37,8 @@
 /*
 ** Camera movement
 */
+# define NEXT_MODE_KEY GLFW_KEY_W
+
 # define CF GLFW_KEY_W
 # define CB GLFW_KEY_S
 # define CL GLFW_KEY_A
@@ -85,6 +87,19 @@ typedef struct	s_m
 	float	data[16];
 }				t_m;
 
+	// int				shading;
+	// int				color;
+	// int				greyscale;
+	// int				mapping;
+	// int				textured;
+
+typedef enum 
+{ 
+    BASIC, 
+    GREYSCALE, 
+    TEXTURED,
+} 		t_modes;
+
 typedef struct	s_texture
 {
 	unsigned char	*img;
@@ -132,6 +147,7 @@ typedef struct	s_shader
 	GLint	gmdloc;
 	GLint	mmdloc;
 	GLint	texloc;
+	GLint	mode;
 }				t_shader;
 
 
@@ -156,14 +172,10 @@ typedef struct	s_world
 	t_cam			cam;
 	t_key			key[MAX_KEYS];
 	int				wireframe;
-	int				focus;
-	int				shading;
-	int				color;
-	int				greyscale;
-	int				mapping;
-	int				textured;
 	t_buffer		buffer;
 	t_shader		shader;
+	t_modes			mode;
+	size_t			modes_len;
 	t_m				translation;
 	t_m				rotation;
 	GLfloat			*vertices;
@@ -207,7 +219,6 @@ void			m_rotate_y(t_m *m, float angle);
 void			m_rotate_z(t_m *m, float angle);
 void			key_handle(t_world *world);
 void			key_action(t_world *world);
-void			key_toggle(t_key *key, int *var, int v0, int v1);
 void			update_shader_uniforms(t_world *world);
 const GLchar	*get_shader_source(char *filename);
 GLuint			create_shader(char *filename, int shader_type);

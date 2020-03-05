@@ -15,11 +15,11 @@
 void			update_shader_uniforms(t_world *world)
 {
 	glUniformMatrix4fv(world->shader.mvploc, 1, GL_FALSE, world->mvp.data);
-	glUniform1i(world->shader.smdloc, world->shading);
-	glUniform1i(world->shader.cmdloc, world->color);
-	glUniform1i(world->shader.gmdloc, world->greyscale);
-	glUniform1i(world->shader.mmdloc, world->mapping);
-	glUniform1i(world->shader.tmdloc, world->textured);
+	glUniform1i(world->shader.smdloc, world->mode == BASIC);
+	glUniform1i(world->shader.cmdloc, 0);
+	glUniform1i(world->shader.gmdloc, world->mode == GREYSCALE);
+	glUniform1i(world->shader.mmdloc, 0);
+	glUniform1i(world->shader.tmdloc, world->mode == TEXTURED);
 }
 
 const GLchar	*get_shader_source(char *filename)
