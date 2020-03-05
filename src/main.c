@@ -51,7 +51,7 @@ void	init(t_env *env)
 }
 
 
-void	run(char *filename)
+int	run(char *filename)
 {
 	t_env	env;
 
@@ -83,6 +83,7 @@ void	run(char *filename)
 		glfwSwapBuffers(env.window);
 	}
 	clean_glfw(&env);
+	return (0);
 }
 
 
@@ -92,6 +93,5 @@ int main(int argc, char **argv)
 		return (1);
 	if (!ft_strstr(argv[1], ".obj"))
 		return (1);
-	run(argv[1]);
-	return (0);
+	return (run(argv[1]));
 }

@@ -63,6 +63,6 @@ void	load_bmp(t_env *env, char *filename)
 	lseek(fd, 54, SEEK_SET);
 	i = read(fd, b, env->model.texture.size);
 	parse_picture(&env->model.texture, b, i);
-	ft_strdel((char**)&b);
+	free(b);
 	close(fd);
 }

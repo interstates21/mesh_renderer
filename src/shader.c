@@ -38,7 +38,7 @@ const GLchar	*get_shader_source(char *filename)
 		buffer[ret] = '\0';
 		del = source;
 		source = ft_strjoin(source, buffer);
-		ft_strdel(&del);
+		free(del);
 	}
 	close(fd);
 	return (source);
