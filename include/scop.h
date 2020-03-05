@@ -91,7 +91,7 @@ typedef struct	s_texture
 	int				size;
 	int				w;
 	int				h;
-	int				sl;
+	int				resolution;
 }				t_texture;
 
 typedef struct	s_cam
@@ -255,7 +255,6 @@ void			center_vertices(t_env *env, int length);
 */
 void			load_bmp(t_env *env, char *filename);
 void			get_image(t_texture *texture, char *buffer, int i);
-void			read_header(char *filename, t_texture *texture);
 
 /*
 ** utils.c

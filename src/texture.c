@@ -1,45 +1,48 @@
 #include "scop.h"
 
-void	read_header(char *filename, t_texture *texture)
+static void	get_bpp(int fd, t_texture *texture)
 {
-	int			fd;
 	size_t		bpp;
 
-	if ((fd = open(filename, O_RDONLY)) == -1)
-		print_err("Read Header Failed");
+	lseek(fd, 2, SEEK_CUR);
+	read(fd, &bpp, 2);
+	texture->resolution = texture->w * (bpp / 8);
+	texture->size = texture->resolution * texture->h;
+}
+
+static void	get_size(int fd, t_texture *texture)
+{
 	lseek(fd, 18, SEEK_SET);
 	read(fd, &texture->w, 4);
 	read(fd,&texture->h, 4);
-	lseek(fd, 2, SEEK_CUR);
-	read(fd, &bpp, 2);
-	close(fd);
-	texture->sl = texture->w * (bpp / 8);
 	texture->w < 0 ? texture->w = -texture->w : 0;
 	texture->h < 0 ? texture->h = -texture->h : 0;
-	texture->size = texture->sl * texture->h;
 }
 
-void	get_image(t_texture *texture, char *buffer, int i)
+static void	update_texture_image(t_texture *texture, char *buffer, int i, int b)
 {
-	int	h;
-	int	j;
-	int	size;
+	texture->img[i] = (unsigned char)buffer[b + 2];
+	texture->img[i + 1] = (unsigned char)buffer[b + 1];
+	texture->img[i + 2] = (unsigned char)buffer[b];
+}
 
-	h = 0;
-	size = texture->size * 2;
-	texture->img = (unsigned char*)malloc(sizeof(unsigned char) * size);
+static void	parse_picture(t_texture *texture, char *buffer, int i)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	texture->img = (unsigned char*)malloc(sizeof(unsigned char) * texture->size * 2);
 	while (i >= 0)
 	{
-		i -= texture->sl;
-		j = 0;
-		while (j < texture->sl)
+		x = 0;
+		i = i - texture->resolution;
+		while (x < texture->resolution)
 		{
-			texture->img[h + j] = (unsigned char)buffer[i + j + 2];
-			texture->img[h + j + 1] = (unsigned char)buffer[i + j + 1];
-			texture->img[h + j + 2] = (unsigned char)buffer[i + j];
-			j += 3;
+			update_texture_image(texture, buffer, y + x, i + x);
+			x += 3;
 		}
-		h += texture->sl;
+		y = texture->resolution + y;
 	}
 }
 
@@ -47,16 +50,19 @@ void	load_bmp(t_env *env, char *filename)
 {
 	int					fd;
 	register size_t		i;
-	char				*buffer;
+	char				*b;
 
 	i = 0;
-	read_header(filename, &env->model.texture);
-	buffer = (char*)malloc(sizeof(char) * env->model.texture.size + 1);
-	if ((fd = open(filename, O_RDWR)) == -1)
-		print_err("bmp file opening failed.");
+	if ((fd = open(filename, O_RDWR)) < 0)
+		print_err("cannot read texture");
+	get_size(fd, &env->model.texture);
+	get_bpp(fd, &env->model.texture);
+	b = malloc(sizeof(char) * env->model.texture.size + 1);
+	if (!b)
+		print_err("cannot allocate");
 	lseek(fd, 54, SEEK_SET);
-	i = read(fd, buffer, env->model.texture.size);
-	get_image(&env->model.texture, buffer, i);
-	ft_strdel((char**)&buffer);
+	i = read(fd, b, env->model.texture.size);
+	parse_picture(&env->model.texture, b, i);
+	ft_strdel((char**)&b);
 	close(fd);
 }
