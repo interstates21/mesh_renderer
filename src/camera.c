@@ -81,5 +81,5 @@ void	camera_look_at_target(t_env *env)
 	view.data[12] = -v3_dot(env->cam.right, env->cam.pos);
 	view.data[13] = -v3_dot(tmp, env->cam.pos);
 	view.data[14] = -v3_dot(env->cam.front, env->cam.pos);
-	env->sim.view = view;
+	env->view = view;
 }

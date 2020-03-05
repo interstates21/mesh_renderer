@@ -22,7 +22,7 @@ int	run(char *filename)
 	{
 		glfw_loop();
 		key_handle(&env);
-		env.sim.model = m_mult(env.translation, env.rotation);
+		env.model = m_mult(env.translation, env.rotation);
 		glUseProgram(env.shader.program);
 		compute_mvp_matrix(&env);
 		update_shader_uniforms(&env);

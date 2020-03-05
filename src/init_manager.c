@@ -25,8 +25,8 @@ static void	init_cam(t_env *env)
 	env->cam.up = v3_cross(env->cam.dir, env->cam.right);
 	env->cam.front = v3_cross(env->cam.up, env->cam.right);
 	env->cam.inertia = v(0, 0, 0);
-	env->sim.model = m_iden();
-	env->sim.view = m_iden();
+	env->model = m_iden();
+	env->view = m_iden();
 	set_projection_matrix(env, FOV);
 	env->translation = m_iden();
 	env->inertia = v(0, 0, 0);

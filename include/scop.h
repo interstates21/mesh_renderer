@@ -113,13 +113,6 @@ typedef struct	s_key
 }				t_key;
 
 
-typedef struct	s_sim
-{
-	t_m	model;
-	t_m	view;
-	t_m	projection;
-	t_m	mvp;
-}				t_sim;
 
 typedef struct	s_buffer
 {
@@ -156,7 +149,10 @@ typedef struct	s_mod
 typedef struct	s_env
 {
 	GLFWwindow		*window;
-	t_sim			sim;
+	t_m				model;
+	t_m				view;
+	t_m				projection;
+	t_m				mvp;
 	t_cam			cam;
 	t_key			key[MAX_KEYS];
 	int				wireframe;

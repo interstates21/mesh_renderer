@@ -14,12 +14,12 @@
 
 void			update_shader_uniforms(t_env *env)
 {
-	glUniformMatrix4fv(env->shader.mvploc, 1, GL_FALSE, env->sim.mvp.data);
+	glUniformMatrix4fv(env->shader.mvploc, 1, GL_FALSE, env->mvp.data);
 	glUniform1i(env->shader.smdloc, env->shading);
 	glUniform1i(env->shader.cmdloc, env->color);
 	glUniform1i(env->shader.gmdloc, env->greyscale);
 	glUniform1i(env->shader.mmdloc, env->mapping);
-	glUniform1i(env->shader.tmdloc, env->texture);
+	glUniform1i(env->shader.tmdloc, env->textured);
 }
 
 const GLchar	*get_shader_source(char *filename)
