@@ -36,13 +36,13 @@ static void	init_cam(t_env *env)
 
 static void	init_modes(t_env *env)
 {
-	env->mod.wireframe = GL_FILL;
-	env->mod.shading = 0;
-	env->mod.focus = 1;
-	env->mod.greyscale = 0;
-	env->mod.mapping = 0;
-	env->mod.texture = 0;
-	env->mod.color = 0;
+	env->wireframe = GL_FILL;
+	env->shading = 0;
+	env->focus = 1;
+	env->greyscale = 0;
+	env->mapping = 0;
+	env->texture = 0;
+	env->color = 0;
 	env->model.velocity = 0.33;
 }
 

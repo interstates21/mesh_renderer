@@ -174,7 +174,13 @@ typedef struct	s_env
 	t_sim		sim;
 	t_cam		cam;
 	t_key		key[MAX_KEYS];
-	t_mod		mod;
+	int			wireframe;
+	int			focus;
+	int			shading;
+	int			color;
+	int			greyscale;
+	int			mapping;
+	int			texture;
 	t_buffer	buffer;
 	t_shader	shader;
 	t_model		model;
@@ -214,7 +220,7 @@ void			m_rotate_z(t_m *m, float angle);
 */
 void			key_handle(t_env *env);
 void			key_action(t_env *env);
-void			key_toggle(t_key *key, short *var, int v0, int v1);
+void			key_toggle(t_key *key, int *var, int v0, int v1);
 
 /*
 ** shader.c
