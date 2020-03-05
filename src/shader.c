@@ -12,14 +12,14 @@
 
 #include "scop.h"
 
-void			update_shader_uniforms(t_env *env)
+void			update_shader_uniforms(t_world *world)
 {
-	glUniformMatrix4fv(env->shader.mvploc, 1, GL_FALSE, env->mvp.data);
-	glUniform1i(env->shader.smdloc, env->shading);
-	glUniform1i(env->shader.cmdloc, env->color);
-	glUniform1i(env->shader.gmdloc, env->greyscale);
-	glUniform1i(env->shader.mmdloc, env->mapping);
-	glUniform1i(env->shader.tmdloc, env->textured);
+	glUniformMatrix4fv(world->shader.mvploc, 1, GL_FALSE, world->mvp.data);
+	glUniform1i(world->shader.smdloc, world->shading);
+	glUniform1i(world->shader.cmdloc, world->color);
+	glUniform1i(world->shader.gmdloc, world->greyscale);
+	glUniform1i(world->shader.mmdloc, world->mapping);
+	glUniform1i(world->shader.tmdloc, world->textured);
 }
 
 const GLchar	*get_shader_source(char *filename)
@@ -78,19 +78,19 @@ GLuint			create_shader_program(GLuint shader_vert, GLuint shader_frag)
 	return (shader_program);
 }
 
-void			build_shader_program(t_env *env)
+void			build_shader_program(t_world *world)
 {
 	GLuint	shader_vert;
 	GLuint	shader_frag;
 
 	shader_vert = create_shader("./shader/vertex.glsl", GL_VERTEX_SHADER);
 	shader_frag = create_shader("./shader/fragment.glsl", GL_FRAGMENT_SHADER);
-	env->shader.program = create_shader_program(shader_vert, shader_frag);
-	env->shader.mvploc = glGetUniformLocation(env->shader.program, "mvp");
-	env->shader.smdloc = glGetUniformLocation(env->shader.program, "smod");
-	env->shader.cmdloc = glGetUniformLocation(env->shader.program, "cmod");
-	env->shader.tmdloc = glGetUniformLocation(env->shader.program, "tmod");
-	env->shader.gmdloc = glGetUniformLocation(env->shader.program, "gmod");
-	env->shader.mmdloc = glGetUniformLocation(env->shader.program, "mmod");
-	env->shader.texloc = glGetUniformLocation(env->shader.program, "ltexture");
+	world->shader.program = create_shader_program(shader_vert, shader_frag);
+	world->shader.mvploc = glGetUniformLocation(world->shader.program, "mvp");
+	world->shader.smdloc = glGetUniformLocation(world->shader.program, "smod");
+	world->shader.cmdloc = glGetUniformLocation(world->shader.program, "cmod");
+	world->shader.tmdloc = glGetUniformLocation(world->shader.program, "tmod");
+	world->shader.gmdloc = glGetUniformLocation(world->shader.program, "gmod");
+	world->shader.mmdloc = glGetUniformLocation(world->shader.program, "mmod");
+	world->shader.texloc = glGetUniformLocation(world->shader.program, "ltexture");
 }

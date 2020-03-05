@@ -92,7 +92,7 @@ t_v3f	compute_axis(GLfloat *vertices, int num_vertices)
 	return (center);
 }
 
-void	center_vertices(t_env *env, int length)
+void	center_vertices(t_world *world, int length)
 {
 	int		i;
 	float	tx;
@@ -102,20 +102,20 @@ void	center_vertices(t_env *env, int length)
 	theta = 90 * (M_PI / 180);
 	while (i < length)
 	{
-		env->vertices[i] -= env->axis.x;
-		env->vertices[i + 1] -= env->axis.y;
-		env->vertices[i + 2] -= env->axis.z;
-		tx = env->vertices[i] * cos(theta) -
-			env->vertices[i + 2] * sin(theta);
-		env->vertices[i + 2] = env->vertices[i] * sin(theta) +
-			env->vertices[i + 2] * cos(theta);
-		env->vertices[i] = tx;
+		world->vertices[i] -= world->axis.x;
+		world->vertices[i + 1] -= world->axis.y;
+		world->vertices[i + 2] -= world->axis.z;
+		tx = world->vertices[i] * cos(theta) -
+			world->vertices[i + 2] * sin(theta);
+		world->vertices[i + 2] = world->vertices[i] * sin(theta) +
+			world->vertices[i + 2] * cos(theta);
+		world->vertices[i] = tx;
 		i += 6;
 	}
-	env->axis = v(0, 0, 0);
+	world->axis = v(0, 0, 0);
 }
 
-void	load_obj(t_env *e, char *filename)
+void	load_obj(t_world *e)
 {
 	int		fd;
 	int		v;
@@ -126,7 +126,7 @@ void	load_obj(t_env *e, char *filename)
 	f = 0;
 	e->vertices = (GLfloat*)malloc(sizeof(GLfloat) * 3);
 	e->indices = (GLuint*)malloc(sizeof(GLuint) * 3);
-	if ((fd = open(filename, O_RDWR)) == -1)
+	if ((fd = open(e->filename, O_RDWR)) == -1)
 		print_err("obj file opening failed.");
 	while (get_next_line(fd, &line) > 0)
 	{

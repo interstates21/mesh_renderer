@@ -12,37 +12,37 @@
 
 #include "scop.h"
 
-void	key_handle(t_env *env)
+void	key_handle(t_world *world)
 {
 	register int	i;
 
-	if (glfwGetKey(env->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		glfwSetWindowShouldClose(env->window, GL_TRUE);
+	if (glfwGetKey(world->window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(world->window, GL_TRUE);
 	i = -1;
 	while (++i < MAX_KEYS)
-		env->key[i].code = glfwGetKey(env->window, i) == GLFW_PRESS ? 1 : 0;
-	key_toggle(&env->key[MW], &env->wireframe, GL_FILL, GL_LINE);
-	key_toggle(&env->key[MF], &env->focus, 0, 1);
-	key_toggle(&env->key[MS], &env->shading, 0, 1);
-	key_toggle(&env->key[MC], &env->color, 0, 1);
-	key_toggle(&env->key[MG], &env->greyscale, 0, 1);
-	key_toggle(&env->key[MM], &env->mapping, 0, 1);
-	key_toggle(&env->key[MT], &env->textured, 0, 1);
-	key_action(env);
+		world->key[i].code = glfwGetKey(world->window, i) == GLFW_PRESS ? 1 : 0;
+	key_toggle(&world->key[MW], &world->wireframe, GL_FILL, GL_LINE);
+	key_toggle(&world->key[MF], &world->focus, 0, 1);
+	key_toggle(&world->key[MS], &world->shading, 0, 1);
+	key_toggle(&world->key[MC], &world->color, 0, 1);
+	key_toggle(&world->key[MG], &world->greyscale, 0, 1);
+	key_toggle(&world->key[MM], &world->mapping, 0, 1);
+	key_toggle(&world->key[MT], &world->textured, 0, 1);
+	key_action(world);
 }
 
-void	key_action(t_env *env)
+void	key_action(t_world *world)
 {
-	if (env->key[MW].code)
-		glPolygonMode(GL_FRONT_AND_BACK, env->wireframe);
-	if (env->key[ZP].code || env->key[ZM].code)
-		camera_zoom(env);
-	if (env->focus)
-		camera_center(env);
-	model_move_demo(env);
-	model_move_inertia(env, 0.9);
-	camera_move_inertia(env, 0.93, FREE);
-	camera_look_at_target(env);
+	if (world->key[MW].code)
+		glPolygonMode(GL_FRONT_AND_BACK, world->wireframe);
+	if (world->key[ZP].code || world->key[ZM].code)
+		camera_zoom(world);
+	if (world->focus)
+		camera_center(world);
+	model_move_demo(world);
+	model_move_inertia(world, 0.9);
+	camera_move_inertia(world, 0.93, FREE);
+	camera_look_at_target(world);
 }
 
 void	key_toggle(t_key *key, int *var, int v0, int v1)

@@ -137,16 +137,16 @@ typedef struct	s_shader
 
 typedef struct	s_mod
 {
-	short	wireframe;
-	short	focus;
-	short	shading;
-	short	color;
-	short	greyscale;
-	short	mapping;
-	short	texture;
+	int			wireframe;
+	int			focus;
+	int			shading;
+	int			color;
+	int			greyscale;
+	int			mapping;
+	int			texture;
 }				t_mod;
 
-typedef struct	s_env
+typedef struct	s_world
 {
 	GLFWwindow		*window;
 	t_m				model;
@@ -176,7 +176,7 @@ typedef struct	s_env
 	t_texture		texture;
 	float			velocity;
 	char			*filename;
-}					t_env;
+}					t_world;
 
 
 typedef struct	s_v2f
@@ -195,85 +195,46 @@ typedef struct	s_v4f
 
 
 
-void			mat4_set(t_m *m, float f);
 void			m_cp(t_m *a, t_m b);
-t_m			mat4_add(t_m a, t_m b);
-t_m			mat4_sub(t_m a, t_m b);
-t_m			m_mult(t_m a, t_m b);
-void	m_fast_mult(t_m *a, t_m b);
-t_m			mat4_scale(t_m m, float f);
-t_m			m4_trans(t_m m);
+t_m				mat4_add(t_m a, t_m b);
+t_m				mat4_sub(t_m a, t_m b);
+t_m				m_mult(t_m a, t_m b);
+void			m_fast_mult(t_m *a, t_m b);
+t_m				mat4_scale(t_m m, float f);
+t_m				m4_trans(t_m m);
 void			m_rotate_x(t_m *m, float angle);
 void			m_rotate_y(t_m *m, float angle);
 void			m_rotate_z(t_m *m, float angle);
-
-/*
-** callback.c
-*/
-void			key_handle(t_env *env);
-void			key_action(t_env *env);
+void			key_handle(t_world *world);
+void			key_action(t_world *world);
 void			key_toggle(t_key *key, int *var, int v0, int v1);
-
-/*
-** shader.c
-*/
-void			update_shader_uniforms(t_env *env);
+void			update_shader_uniforms(t_world *world);
 const GLchar	*get_shader_source(char *filename);
 GLuint			create_shader(char *filename, int shader_type);
 GLuint			create_shader_program(GLuint shader_vert, GLuint shader_frag);
-void			build_shader_program(t_env *env);
-
-/*
-** buffer.c
-*/
-void			create_texture(t_env *env);
-void			create_buffers(t_env *env, int mode);
-
-/*
-** parsing.c
-*/
-void			load_obj(t_env *env, char *filename);
+void			build_shader_program(t_world *world);
+void			create_texture(t_world *world);
+void			create_buffers(t_world *world, int mode);
+void			load_obj(t_world *e);
 GLfloat			*append_vertices(GLfloat *array, char *line, int *length);
 GLuint			*append_indices(GLuint *array, char *line, int *length);
 t_v3f			compute_axis(GLfloat	*vertices, int num_vertices);
-void			center_vertices(t_env *env, int length);
-
-/*
-** texture.c
-*/
-void			load_bmp(t_env *env, char *filename);
-void			get_image(t_texture *texture, char *buffer, int i);
-
-/*
-** utils.c
-*/
-void			clean_glfw(t_env *env);
-// int				array_len(void **tab);
+void			center_vertices(t_world *world, int length);
+void			get_textures(t_world *world);
+void			clean_glfw(t_world *world);
 GLuint			*gluint_array_copy(GLuint *array, int length, int m);
-/*
-** coordinate_system.c
-*/
-void			set_projection_matrix(t_env *env, float fov);
-void			compute_mvp_matrix(t_env *env);
-
-/*
-** movement.c
-*/
+void			set_projection_matrix(t_world *world, float fov);
+void			compute_mvp_matrix(t_world *world);
 void			translate(t_m *m, t_v3f v);
 void			rotate(t_m *m, t_v3f v);
-void			model_move_inertia(t_env *env, float inertia);
-void			model_move_demo(t_env *env);
-
-/*
-** camera.c
-*/
-void			camera_zoom(t_env *env);
-void			camera_move_inertia(t_env *env, float inertia, int mode);
-void			camera_center(t_env *env);
-void			camera_look_at_target(t_env *env);
-
+void			model_move_inertia(t_world *world, float inertia);
+void			model_move_demo(t_world *world);
+void			camera_zoom(t_world *world);
+void			camera_move_inertia(t_world *world, float inertia, int mode);
+void			camera_center(t_world *world);
+void			camera_look_at_target(t_world *world);
 void    		print_err(char *str);
-void			init_gl(t_env *env);
+void			init_gl(t_world *world);
 
 t_v3f	v(double x, double y, double z);
 double	v3_dot(t_v3f a, t_v3f b);
@@ -285,7 +246,7 @@ double	v3_magnitude(t_v3f a);
 t_v3f	v3_norm(t_v3f a);
 t_v3f	v3_cross(t_v3f a, t_v3f b);
 t_v2f	v3_to_v2(t_v3f a);
-t_m	m_zero();
-t_m	m_iden();
-t_env	init_manager(char *filename);
+t_m		m_zero();
+t_m		m_iden();
+t_world	init_manager(char *filename);
 #endif

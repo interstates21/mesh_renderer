@@ -29,35 +29,35 @@ void	rotate(t_m *m, t_v3f v)
 		m_rotate_z(m, v.z);
 }
 
-void	model_move_inertia(t_env *env, float inertia)
+void	model_move_inertia(t_world *world, float inertia)
 {
-	env->inertia = v3_scale(env->inertia, inertia);
-	if (env->key[TF].code)
-		env->inertia = v3_min(env->inertia,
-		v3_scale(v(env->cam.front.x, 0, env->cam.front.z), 0.01));
-	if (env->key[TB].code)
-		env->inertia = v3_plus(env->inertia,
-		v3_scale(v(env->cam.front.x, 0, env->cam.front.z), 0.01));
-	if (env->key[TL].code)
-		env->inertia = v3_min(env->inertia,
-		v3_scale(env->cam.right, 0.01));
-	if (env->key[TR].code)
-		env->inertia = v3_plus(env->inertia,
-		v3_scale(env->cam.right, 0.01));
-	if (env->key[TU].code)
-		env->inertia = v3_plus(env->inertia,
-		v3_scale(env->cam.up, 0.01));
-	if (env->key[TD].code)
-		env->inertia = v3_min(env->inertia,
-		v3_scale(env->cam.up, 0.01));
-	translate(&env->translation, env->inertia);
+	world->inertia = v3_scale(world->inertia, inertia);
+	if (world->key[TF].code)
+		world->inertia = v3_min(world->inertia,
+		v3_scale(v(world->cam.front.x, 0, world->cam.front.z), 0.01));
+	if (world->key[TB].code)
+		world->inertia = v3_plus(world->inertia,
+		v3_scale(v(world->cam.front.x, 0, world->cam.front.z), 0.01));
+	if (world->key[TL].code)
+		world->inertia = v3_min(world->inertia,
+		v3_scale(world->cam.right, 0.01));
+	if (world->key[TR].code)
+		world->inertia = v3_plus(world->inertia,
+		v3_scale(world->cam.right, 0.01));
+	if (world->key[TU].code)
+		world->inertia = v3_plus(world->inertia,
+		v3_scale(world->cam.up, 0.01));
+	if (world->key[TD].code)
+		world->inertia = v3_min(world->inertia,
+		v3_scale(world->cam.up, 0.01));
+	translate(&world->translation, world->inertia);
 }
 
-void	model_move_demo(t_env *env)
+void	model_move_demo(t_world *world)
 {
-	if (env->key[RM].code)
-		env->velocity -= 0.05;
-	if (env->key[RP].code)
-		env->velocity += 0.05;
-	rotate(&env->rotation, v(0, env->velocity, 0));
+	if (world->key[RM].code)
+		world->velocity -= 0.05;
+	if (world->key[RP].code)
+		world->velocity += 0.05;
+	rotate(&world->rotation, v(0, world->velocity, 0));
 }

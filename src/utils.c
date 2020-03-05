@@ -12,11 +12,11 @@
 
 #include "scop.h"
 
-void	clean_glfw(t_env *env)
+void	clean_glfw(t_world *world)
 {
-	glDeleteVertexArrays(1, &env->buffer.vao);
-	glDeleteBuffers(1, &env->buffer.vbo);
-	glDeleteBuffers(1, &env->buffer.ebo);
+	glDeleteVertexArrays(1, &world->buffer.vao);
+	glDeleteBuffers(1, &world->buffer.vbo);
+	glDeleteBuffers(1, &world->buffer.ebo);
 	glfwTerminate();
 }
 

@@ -11,13 +11,13 @@ static void	init_gl_version(void) {
 }
 
 
-static void calc_monitor_viewport(t_env *env) {
+static void calc_monitor_viewport(t_world *world) {
     int w;
     int h;
 
     w = WIDTH;
     h = HEIGHT;
-    glfwGetFramebufferSize(env->window, &w, &h);
+    glfwGetFramebufferSize(world->window, &w, &h);
     ft_putstr("Viewport: ");
     ft_putnbr(w);
     ft_putstr(", ");
@@ -26,13 +26,13 @@ static void calc_monitor_viewport(t_env *env) {
     glViewport(0, 0, w, h);
 }
 
-void	init_gl(t_env *env)
+void	init_gl(t_world *world)
 {
     if (!glfwInit())
 		ft_putendl("Failed to init GLFW");
 	init_gl_version();
-	env->window = glfwCreateWindow(WIDTH, HEIGHT, WINDOW_NAME, NULL, NULL);
-	if (env->window == NULL)
+	world->window = glfwCreateWindow(WIDTH, HEIGHT, WINDOW_NAME, NULL, NULL);
+	if (world->window == NULL)
 	{
     	glfwTerminate();
     	print_err("Failed to init Window");
@@ -42,6 +42,6 @@ void	init_gl(t_env *env)
     ft_putstr(", ");
     ft_putnbr(HEIGHT);
     ft_putchar('\n');
-	glfwMakeContextCurrent(env->window);
-    calc_monitor_viewport(env);
+	glfwMakeContextCurrent(world->window);
+    calc_monitor_viewport(world);
 }

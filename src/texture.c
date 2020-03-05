@@ -46,23 +46,23 @@ static void	parse_picture(t_texture *texture, char *buffer, int i)
 	}
 }
 
-void	load_bmp(t_env *env, char *filename)
+void	get_textures(t_world *world)
 {
 	int					fd;
 	register size_t		i;
 	char				*b;
 
 	i = 0;
-	if ((fd = open(filename, O_RDWR)) < 0)
+	if ((fd = open("./resources/poney.bmp", O_RDWR)) < 0)
 		print_err("cannot read texture");
-	get_size(fd, &env->texture);
-	get_bpp(fd, &env->texture);
-	b = malloc(sizeof(char) * env->texture.size + 1);
+	get_size(fd, &world->texture);
+	get_bpp(fd, &world->texture);
+	b = malloc(sizeof(char) * world->texture.size + 1);
 	if (!b)
 		print_err("cannot allocate");
 	lseek(fd, 54, SEEK_SET);
-	i = read(fd, b, env->texture.size);
-	parse_picture(&env->texture, b, i);
+	i = read(fd, b, world->texture.size);
+	parse_picture(&world->texture, b, i);
 	free(b);
 	close(fd);
 }

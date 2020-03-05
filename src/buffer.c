@@ -12,37 +12,37 @@
 
 #include "scop.h"
 
-void	create_texture(t_env *env)
+void	create_texture(t_world *world)
 {
-	glGenTextures(1, &env->buffer.texture);
-	glBindTexture(GL_TEXTURE_2D, env->buffer.texture);
+	glGenTextures(1, &world->buffer.texture);
+	glBindTexture(GL_TEXTURE_2D, world->buffer.texture);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, env->texture.w,
-	env->texture.h, 0, GL_RGB, GL_UNSIGNED_BYTE, env->texture.img);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, world->texture.w,
+	world->texture.h, 0, GL_RGB, GL_UNSIGNED_BYTE, world->texture.img);
 	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void	create_buffers(t_env *env, int mode)
+void	create_buffers(t_world *world, int mode)
 {
-	glGenBuffers(1, &env->buffer.vbo);
-	glGenBuffers(1, &env->buffer.ebo);
-	glGenVertexArrays(1, &env->buffer.vao);
-	glBindVertexArray(env->buffer.vao);
-	glBindBuffer(GL_ARRAY_BUFFER, env->buffer.vbo);
-	glBufferData(GL_ARRAY_BUFFER, env->size_vertices,
-		env->vertices, mode);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, env->buffer.ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->size_indices,
-		env->indices, mode);
+	glGenBuffers(1, &world->buffer.vbo);
+	glGenBuffers(1, &world->buffer.ebo);
+	glGenVertexArrays(1, &world->buffer.vao);
+	glBindVertexArray(world->buffer.vao);
+	glBindBuffer(GL_ARRAY_BUFFER, world->buffer.vbo);
+	glBufferData(GL_ARRAY_BUFFER, world->size_vertices,
+		world->vertices, mode);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, world->buffer.ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, world->size_indices,
+		world->indices, mode);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
 		(GLvoid*)0);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat),
 		(GLvoid*)(3 * sizeof(GLfloat)));
 	glEnableVertexAttribArray(1);
-	create_texture(env);
+	create_texture(world);
 }
