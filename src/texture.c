@@ -1,25 +1,32 @@
 #include "scop.h"
 
-void	read_header(char *filename, t_texture *texture)
+static void	read_size(int fd, t_texture *texture)
 {
-	int			fd;
-	size_t		bpp;
-
-	if ((fd = open(filename, O_RDONLY)) == -1)
-		print_err("Read Header Failed");
-	lseek(fd, 18, SEEK_SET);
+	int	pos;
+	pos = 18;
+	lseek(fd, pos, SEEK_SET);
 	read(fd, &texture->w, 4);
 	read(fd,&texture->h, 4);
-	lseek(fd, 2, SEEK_CUR);
-	read(fd, &bpp, 2);
-	close(fd);
-	texture->sl = texture->w * (bpp / 8);
-	texture->w < 0 ? texture->w = -texture->w : 0;
-	texture->h < 0 ? texture->h = -texture->h : 0;
-	texture->size = texture->sl * texture->h;
+	if (texture->w < 0)
+		texture->w = -texture->w;
+	if (texture->h < 0)
+		texture->h = -texture->h;
 }
 
-void	get_image(t_texture *texture, char *buffer, int i)
+static size_t	read_resolution(int fd, t_texture *texture)
+{
+	size_t		bpp;
+	size_t		resolution;
+
+	lseek(fd, 2, SEEK_CUR);
+	read(fd, &bpp, 2);
+	resolution = texture->w * (bpp / 8);
+	texture->size = resolution * texture->h;
+	return (resolution);
+}
+
+
+static void	get_image(t_texture *texture, char *buffer, int i)
 {
 	int	h;
 	int	j;
@@ -47,13 +54,15 @@ void	load_bmp(t_env *env, char *filename)
 {
 	int					fd;
 	register size_t		i;
+	size_t				resolution;
 	char				*buffer;
 
 	i = 0;
-	read_header(filename, &env->model.texture);
-	buffer = (char*)malloc(sizeof(char) * env->model.texture.size + 1);
-	if ((fd = open(filename, O_RDWR)) == -1)
+	if ((fd = open(filename, O_RDWR)) < 0)
 		print_err("bmp file opening failed.");
+	read_size(fd, &env->model.texture);
+	resolution = read_resolution(fd, &env->model.texture);
+	buffer = (char*)malloc(sizeof(char) * env->model.texture.size + 1);
 	lseek(fd, 54, SEEK_SET);
 	i = read(fd, buffer, env->model.texture.size);
 	get_image(&env->model.texture, buffer, i);
