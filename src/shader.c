@@ -32,7 +32,7 @@ const GLchar	*get_shader_source(char *filename)
 
 	source = ft_strnew(BUFFER_SIZE);
 	if ((fd = open(filename, O_RDONLY)) == -1)
-		error("shader source file opening failed.");
+		print_err("shader source file opening failed.");
 	while ((ret = read(fd, buffer, BUFFER_SIZE)))
 	{
 		buffer[ret] = '\0';
@@ -57,7 +57,7 @@ GLuint			create_shader(char *filename, int shader_type)
 	free((void*)shader_source);
 	glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
 	if (!success)
-		error("shader compilation failed.");
+		print_err("shader compilation failed.");
 	return (shader);
 }
 
@@ -72,7 +72,7 @@ GLuint			create_shader_program(GLuint shader_vert, GLuint shader_frag)
 	glLinkProgram(shader_program);
 	glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
 	if (!success)
-		error("shader program compilation failed.");
+		print_err("shader program compilation failed.");
 	glDeleteShader(shader_vert);
 	glDeleteShader(shader_frag);
 	return (shader_program);

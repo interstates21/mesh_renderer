@@ -46,9 +46,12 @@ GLuint	*append_indices(GLuint *array, char *line, int *length)
 	int		m;
 	char	**tab;
 
+    m = 0;
 	tab = ft_strsplit(&line[1], ' ');
-	m = array_len((void**)tab) == 4 ? 6 : 3;
-	*length += m;
+	while (tab[m] != NULL)
+		m++;
+	m = m == 4 ? 6 : 3;
+	*length = *length + m;
 	array = gluint_array_copy(array, *length, m);
 	j = -1;
 	while (++j < 3)
@@ -124,7 +127,7 @@ void	load_obj(t_env *e, char *filename)
 	e->model.vertices = (GLfloat*)malloc(sizeof(GLfloat) * 3);
 	e->model.indices = (GLuint*)malloc(sizeof(GLuint) * 3);
 	if ((fd = open(filename, O_RDWR)) == -1)
-		error("obj file opening failed.");
+		print_err("obj file opening failed.");
 	while (get_next_line(fd, &line) > 0)
 	{
 		if (line[0] == 'v' && line[1] == ' ')

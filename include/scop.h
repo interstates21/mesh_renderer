@@ -263,11 +263,8 @@ void			read_header(char *filename, t_texture *texture);
 ** utils.c
 */
 void			clean_glfw(t_env *env);
-int				array_len(void **tab);
+// int				array_len(void **tab);
 GLuint			*gluint_array_copy(GLuint *array, int length, int m);
-void			error(char *info);
-void			display_help(void);
-
 /*
 ** coordinate_system.c
 */
