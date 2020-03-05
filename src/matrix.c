@@ -2,11 +2,11 @@
 
 void	m_cp(t_m *a, t_m b)
 {
-	int			i;
-	int			size;
+	register size_t			i;
+	register size_t			size;
 
 	i = 0;
-	size = 16;
+	size = MATRIX_FULL_SIZE;
 	while (i < size)
 	{
 		a->data[i] = b.data[i];
@@ -16,11 +16,11 @@ void	m_cp(t_m *a, t_m b)
 
 t_m	m_iden()
 {
-	int		i;
-	t_m	temp;
+	register size_t		i;
+	t_m					temp;
 
 	i = 0;
-	while (i < 16) {
+	while (i < MATRIX_FULL_SIZE) {
 		temp.data[i] = (i % 5 == 0 ? 1 : 0);
 		i++;
 	}
@@ -29,11 +29,11 @@ t_m	m_iden()
 
 t_m	m_zero()
 {
-	int		i;
-	t_m	temp;
+	register size_t		i;
+	t_m					temp;
 
 	i = 0;
-	while (i < 16) {
+	while (i < MATRIX_FULL_SIZE) {
 		temp.data[i] = 0;
 		i++;
 	}
@@ -42,31 +42,59 @@ t_m	m_zero()
 
 
 
-t_m	mat4_mul(t_m a, t_m b)
+t_m		mat4_mul(t_m a, t_m b)
 {
-	int		h;
-	int		w;
-	int		z;
-	t_m	m;
+	register size_t		x;
+	register size_t		y;
+	register size_t		z;
+	t_m					mat;
 
-	h = -1;
-	while (++h < 4)
+	y = 0;
+	while (y < MATRIX_SIZE)
 	{
-		w = -1;
-		while (++w < 4)
+		x = 0;
+		while (x < MATRIX_SIZE)
 		{
 			z = -1;
-			m.data[h * 4 + w] = 0;
-			while (++z < 4)
-				m.data[h * 4 + w] += a.data[h * 4 + z] * b.data[z * 4 + w];
+			mat.data[y * MATRIX_SIZE + x] = 0;
+			while (++z < MATRIX_SIZE)
+				mat.data[y * MATRIX_SIZE + x]
+				+= a.data[y * MATRIX_SIZE + z] * b.data[z * MATRIX_SIZE + x];
+			x++;
 		}
+		y++;
 	}
-	return (m);
+	return (mat);
+}
+
+void	m4_fast_mult(t_m *a, t_m b)
+{
+	register size_t		x;
+	register size_t		y;
+	register size_t		z;
+	t_m					mat;
+
+	y = 0;
+	while (y < MATRIX_SIZE)
+	{
+		x = 0;
+		while (x < MATRIX_SIZE)
+		{
+			z = -1;
+			mat.data[y * MATRIX_SIZE + x] = 0;
+			while (++z < MATRIX_SIZE)
+				mat.data[y * MATRIX_SIZE + x]
+				+= a->data[y * MATRIX_SIZE + z] * b.data[z * MATRIX_SIZE + x];
+			x++;
+		}
+		y++;
+	}
+	m_cp(a, mat);
 }
 
 void	m_rotate_x(t_m *m, float angle)
 {
-	t_m	r;
+	t_m		r;
 	float	theta;
 
 	r = m_iden();
@@ -75,7 +103,7 @@ void	m_rotate_x(t_m *m, float angle)
 	r.data[6] = sin(theta);
 	r.data[9] = -sin(theta);
 	r.data[10] = cos(theta);
-	*m = mat4_mul(*m, r);
+	m4_fast_mult(m, r);
 }
 
 void	m_rotate_y(t_m *m, float angle)
@@ -89,7 +117,7 @@ void	m_rotate_y(t_m *m, float angle)
 	r.data[2] = -sin(theta);
 	r.data[8] = sin(theta);
 	r.data[10] = cos(theta);
-	*m = mat4_mul(*m, r);
+	m4_fast_mult(m, r);
 }
 
 void	m_rotate_z(t_m *m, float angle)
@@ -103,7 +131,7 @@ void	m_rotate_z(t_m *m, float angle)
 	r.data[1] = sin(theta);
 	r.data[4] = -sin(theta);
 	r.data[5] = cos(theta);
-	*m = mat4_mul(*m, r);
+	m4_fast_mult(m, r);
 }
 
 
@@ -115,11 +143,11 @@ t_m	mat4_transpose(t_m m)
 
 	y = 0;
 	x = 0;
-	while (y < 4)
+	while (y < MATRIX_SIZE)
 	{
 		x = 0;
-		while (x < 4) {
-			t.data[x * 4 + y] = m.data[y * 4 + x];
+		while (x < MATRIX_SIZE) {
+			t.data[x * MATRIX_SIZE + y] = m.data[y * MATRIX_SIZE + x];
 			x++;
 		}
 		y++;

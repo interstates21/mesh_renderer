@@ -23,6 +23,8 @@
 # define WIDTH 1600
 # define HEIGHT 800
 # define FOV 90
+# define MATRIX_SIZE 4
+# define MATRIX_FULL_SIZE 16
 # define CAMERA_NEAR 0.001
 # define CAMERA_FAR 100.0
 # define ASPECT_RATIO (WIDTH / (float)HEIGHT)
@@ -202,6 +204,7 @@ void			m_cp(t_m *a, t_m b);
 t_m			mat4_add(t_m a, t_m b);
 t_m			mat4_sub(t_m a, t_m b);
 t_m			mat4_mul(t_m a, t_m b);
+void	m4_fast_mult(t_m *a, t_m b);
 t_m			mat4_scale(t_m m, float f);
 t_m			mat4_transpose(t_m m);
 void			m_rotate_x(t_m *m, float angle);
